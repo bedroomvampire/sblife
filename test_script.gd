@@ -11,7 +11,10 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if Input.is_action_just_pressed("switch_sim"):
-		if selected_num >= sims_available:
-			selected_num = 1
-		else:
-			selected_num += 1
+		switch_sim_forward()
+
+func switch_sim_forward():
+	if selected_num >= sims_available:
+		selected_num = 1
+	else:
+		selected_num += 1

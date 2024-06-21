@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://bq5r4md5xxphn"]
+[gd_scene load_steps=17 format=3 uid="uid://bq5r4md5xxphn"]
 
 [ext_resource type="Script" path="res://sim_counter.gd" id="1_tij4t"]
 [ext_resource type="PackedScene" uid="uid://cmuc10t6snwjh" path="res://entities/placeholder/test_sim.tscn" id="2_hul1p"]
 [ext_resource type="Texture2D" uid="uid://ct4j8caps48y5" path="res://icon.svg" id="5_75pp0"]
 [ext_resource type="Script" path="res://label.gd" id="6_obc5f"]
+[ext_resource type="Script" path="res://HBoxContainer.gd" id="7_l58ug"]
 [ext_resource type="Script" path="res://Node3D2.gd" id="8_hrkxl"]
 [ext_resource type="Script" path="res://scripts/camera/camera.gd" id="9_megtb"]
 
@@ -303,6 +304,7 @@ script = ExtResource("1_tij4t")
 
 [node name="Sprite3D2" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.53674e-07, 0.5)
+visible = false
 modulate = Color(1, 1, 1, 0.498039)
 billboard = 1
 shaded = true
@@ -331,51 +333,71 @@ first_name = "Joe"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
 script = ExtResource("8_hrkxl")
 
-[node name="Marker3D" type="Marker3D" parent="Camera"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+[node name="Node3D" type="Node3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
 
-[node name="SpringArm3D" type="SpringArm3D" parent="Camera/Marker3D"]
+[node name="Marker3D" type="Marker3D" parent="Camera/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Camera/Node3D/Marker3D"]
 transform = Transform3D(1, 0, 0, 0, 0.793353, 0.608761, 0, -0.608761, 0.793353, 0, 0, 0)
 spring_length = 30.0
 
-[node name="Camera3D" type="Camera3D" parent="Camera/Marker3D/SpringArm3D"]
+[node name="Camera3D" type="Camera3D" parent="Camera/Node3D/Marker3D/SpringArm3D"]
 current = true
-fov = 37.0
+fov = 45.0
 script = ExtResource("9_megtb")
 
-[node name="PlayerArea3D" type="Area3D" parent="Camera/Marker3D/SpringArm3D/Camera3D"]
+[node name="PlayerArea3D" type="Area3D" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera/Marker3D/SpringArm3D/Camera3D/PlayerArea3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D/PlayerArea3D"]
 shape = SubResource("CapsuleShape3D_ftqj6")
 
-[node name="Sprite3D" type="Sprite3D" parent="Camera/Marker3D/SpringArm3D/Camera3D"]
+[node name="Sprite3D" type="Sprite3D" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 0.63876, -0.769406, 0, 0.769406, 0.63876, 11.0665, 12.5428, -29.1139)
+visible = false
 billboard = 1
 double_sided = false
 no_depth_test = true
 texture = ExtResource("5_75pp0")
 
-[node name="Sprite3D2" type="Sprite3D" parent="Camera/Marker3D/SpringArm3D/Camera3D"]
+[node name="Sprite3D2" type="Sprite3D" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.53674e-07, 0.5)
+visible = false
 modulate = Color(1, 1, 1, 0.498039)
 billboard = 1
 shaded = true
 no_depth_test = true
 texture = ExtResource("5_75pp0")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Camera/Marker3D/SpringArm3D/Camera3D"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D"]
 visible = false
 offset_right = 86.0
-offset_bottom = 40.0
-mouse_filter = 2
+offset_bottom = 32.0
+mouse_filter = 0
 
-[node name="Button" type="Button" parent="Camera/Marker3D/SpringArm3D/Camera3D/VBoxContainer"]
+[node name="Button" type="Button" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 1
 text = "Walk here"
+alignment = 0
+
+[node name="Button2" type="Button" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+text = "Walk and switch (Debug)"
+alignment = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_qgfb5")
+disabled = true
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+target_position = Vector3(0, -1024, 0)
+collision_mask = 5
+hit_from_inside = true
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -401,4 +423,49 @@ offset_right = 40.0
 offset_bottom = 40.0
 color = Color(0, 0, 0, 0.498039)
 
-[connection signal="pressed" from="Camera/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button" to="Camera/Marker3D/SpringArm3D/Camera3D" method="_on_walk_herebutton_pressed"]
+[node name="ColorRect2" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 1
+color = Color(0, 0, 0, 0.498039)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+offset_right = 84.0
+grow_vertical = 0
+script = ExtResource("7_l58ug")
+
+[node name="Button" type="Button" parent="Control/HBoxContainer"]
+layout_mode = 2
+text = "1"
+
+[node name="Button2" type="Button" parent="Control/HBoxContainer"]
+layout_mode = 2
+text = "2"
+
+[node name="Button3" type="Button" parent="Control/HBoxContainer"]
+layout_mode = 2
+text = "3"
+
+[node name="Button4" type="Button" parent="Control/HBoxContainer"]
+layout_mode = 2
+text = "4"
+
+[connection signal="mouse_entered" from="Camera/Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Camera/Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Camera/Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_walk_herebutton_pressed"]
+[connection signal="mouse_entered" from="Camera/Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button2" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Camera/Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button2" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_exited"]
+[connection signal="pressed" from="Camera/Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button2" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_walk_and_switch_pressed"]
+[connection signal="mouse_entered" from="Control" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_exited"]

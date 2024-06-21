@@ -1,8 +1,13 @@
 extends CharacterBody3D
 
-@onready var marker = $Marker3D
-@onready var spring = $Marker3D/SpringArm3D
-@onready var camera = $Marker3D/SpringArm3D/Camera3D
+@onready var marker = $Node3D/Marker3D
+@onready var spring = $Node3D/Marker3D/SpringArm3D
+@onready var camera = $Node3D/Marker3D/SpringArm3D/Camera3D
+@onready var node = $Node3D
+@onready var raycast = $RayCast3D
+
+const normal_speed = 12.5
+const shift_speed = 25.0
 
 var SPEED = 20.0
 var following : bool
@@ -16,7 +21,7 @@ var zoom_factor : float = 2
 var zoom_duration : float = 5
 
 @export var cam_rot : Vector2 = Vector2(37.5,0)
-@export var _zoom_level : float = 30
+@export var _zoom_level : float = 20
 
 func _ready():
 	#spring.rotation.x = cam_rot.x
@@ -53,6 +58,11 @@ func _process(delta):
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		#mouse_pos = get_viewport().get_mouse_position()
+	
+	if Input.is_action_pressed("shift"):
+		SPEED = shift_speed
+	else:
+		SPEED = normal_speed
 
 func handle_camera_zoom(delta):
 	if Input.is_action_pressed("zoom_up"):
@@ -69,20 +79,23 @@ func _physics_process(delta):
 	mouse_dir = mouse_dir.rotated(Vector3.UP, marker.rotation.y)
 	
 	if following && target:
-		global_position.x = lerp(global_position.x, target.global_position.x, delta * 2)
-		global_position.z = lerp(global_position.z, target.global_position.z, delta * 2)
+		global_position.x = lerp(global_position.x, target.global_position.x, delta * 8)
+		global_position.z = lerp(global_position.z, target.global_position.z, delta * 8)
 	else:
 		if key_dir:
-			velocity.x = lerp(velocity.x, key_dir.x * SPEED, delta * 2)
-			velocity.z = lerp(velocity.z, key_dir.z * SPEED, delta * 2)
+			velocity.x = lerp(velocity.x, key_dir.x * SPEED, delta * 8)
+			velocity.z = lerp(velocity.z, key_dir.z * SPEED, delta * 8)
 		elif mouse_dir:
-			velocity.x = lerp(velocity.x, mouse_dir.y * SPEED, delta * 2)
-			velocity.z = lerp(velocity.z, mouse_dir.x * SPEED, delta * 2)
+			velocity.x = lerp(velocity.x, mouse_dir.y * SPEED, delta * 8)
+			velocity.z = lerp(velocity.z, mouse_dir.x * SPEED, delta * 8)
 		else:
-			velocity.x = lerp(velocity.x, 0.0, SPEED / 4 * delta)
-			velocity.z = lerp(velocity.z, 0.0, SPEED / 4 * delta)
+			velocity.x = lerp(velocity.x, 0.0, SPEED / 3 * delta)
+			velocity.z = lerp(velocity.z, 0.0, SPEED / 3 * delta)
 	
 	move_and_slide()
 	
+	position.y = lerp(position.y, raycast.get_collision_point().y, delta * 8)
+	
+	spring.rotation.x = clamp(spring.rotation.x, deg_to_rad(-90), deg_to_rad(22.5))
 	_zoom_level = clamp(_zoom_level, min_zoom, max_zoom)
 	spring.spring_length = lerp(spring.spring_length, _zoom_level, zoom_duration * delta)
