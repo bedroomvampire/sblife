@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://cmuc10t6snwjh"]
+
+[ext_resource type="Script" path="res://CharacterBody3D.gd" id="1_crkmh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f5act"]
+radius = 0.375
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_78rch"]
+radius = 0.375
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ij4yu"]
+top_radius = 0.0
+bottom_radius = 0.25
+height = 0.5
+radial_segments = 16
+rings = 0
+cap_top = false
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("1_crkmh")
+playersim_num = 1
+
+[node name="Sim" type="Node" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_f5act")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_78rch")
+
+[node name="Plummob" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+mesh = SubResource("CylinderMesh_ij4yu")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+height = 2.0
+use_3d_avoidance = true
+debug_enabled = true
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+radius = 0.38
+height = 2.0
+use_3d_avoidance = true
+
+[connection signal="moveSomewhere" from="." to="." method="_on_sim_go"]
