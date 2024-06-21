@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="OURLife"
-config/description="Originally started as a separate Sims-clone prototype codenamed \"Sims5\" (Not affiliated with EA nor Maxis), was later revived for prototyping mechanics for a new project codenamed \"OURLife\"."
+config/name="sblife"
+config/description="Originally started as a separate Sims-clone prototype codenamed \"Sims5\" (Not affiliated with EA nor Maxis), was later revived for prototyping mechanics for a new project codenamed \"OURLife\" (Name will probably be renamed)."
 run/main_scene="res://node_3d.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
