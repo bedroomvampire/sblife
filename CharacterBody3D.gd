@@ -5,11 +5,11 @@ signal moveSomewhere
 @onready var agent = $NavigationAgent3D
 @onready var plumbob = $Plummob
 
-@export var playersim_num : int
+@export var playermive_num : int
 @export var first_name = "John"
 @export var sur_name = "Doe"
 
-var sim_name = first_name + " " + sur_name
+var mive_name = first_name + " " + sur_name
 var active : bool = true
 var destination : Vector3
 
@@ -21,8 +21,8 @@ const JUMP_VELOCITY = 4.5
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
-	TestScript.sims_available += 1
-	SimMoveCommands.simMoveCommands.emit(moveSomewhere)
+	TestScript.mives_available += 1
+	MivesMoveCommands.miveMoveCommands.emit(moveSomewhere)
 	destination = position
 
 func _physics_process(delta):
@@ -39,7 +39,7 @@ func _physics_process(delta):
 	rotation.y = lerp_angle(rotation.y, atan2(velocity.x, velocity.z), LERP_VAL)
 
 func _process(_delta):
-	if TestScript.selected_num == playersim_num:
+	if TestScript.selected_num == playermive_num:
 		active = true
 	else:
 		active = false
@@ -49,9 +49,9 @@ func _process(_delta):
 	else:
 		plumbob.visible = false
 	
-	_on_sim_go()
+	_on_mive_go()
 
 
-func _on_sim_go():
-	if SimMoveCommands.sim == playersim_num:
-		destination = SimMoveCommands.position
+func _on_mive_go():
+	if MivesMoveCommands.mive == playermive_num:
+		destination = MivesMoveCommands.position

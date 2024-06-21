@@ -1,8 +1,8 @@
 extends Node
 
-signal simMoveCommands
+signal miveMoveCommands
 
-var sim
+var mive
 var position
 
 # Called when the node enters the scene tree for the first time.
@@ -14,6 +14,6 @@ func _ready():
 func _process(delta):
 	pass
 
-func move_sim(simID,pos):
-	sim = simID
+func move_mive(miveID,pos):
+	mive = miveID
 	position = pos

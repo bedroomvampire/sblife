@@ -49,7 +49,7 @@ func asdfghjkl():
 	is_click = true
 
 func _on_walk_herebutton_pressed():
-	SimMoveCommands.move_sim(TestScript.selected_num, hit_cursor.global_position)
+	MivesMoveCommands.move_mive(TestScript.selected_num, hit_cursor.global_position)
 	$VBoxContainer.visible = false
 	is_click = false
 
@@ -67,7 +67,7 @@ func _on_control_mouse_exited():
 
 
 func _on_walk_and_switch_pressed():
-	SimMoveCommands.move_sim(TestScript.selected_num, hit_cursor.global_position)
-	TestScript.switch_sim_forward()
+	MivesMoveCommands.move_mive(TestScript.selected_num, hit_cursor.global_position)
+	TestScript.switch_mive_forward()
 	$VBoxContainer.visible = false
 	is_click = false
