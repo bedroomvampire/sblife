@@ -3,7 +3,7 @@ extends CharacterBody3D
 signal moveSomewhere
 
 @onready var agent = $NavigationAgent3D
-@onready var plumbob = $Plummob
+@onready var indicator = $Indicator
 
 var playermive_num : int
 @export var first_name = "John"
@@ -46,9 +46,9 @@ func _process(_delta):
 		active = false
 	
 	if active:
-		plumbob.visible = true
+		indicator.visible = true
 	else:
-		plumbob.visible = false
+		indicator.visible = false
 	
 	_on_mive_go()
 
