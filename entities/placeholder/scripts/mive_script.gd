@@ -12,6 +12,7 @@ var playermive_num : int
 var mive_name = first_name + " " + sur_name
 var active : bool = true
 var destination : Vector3
+var reached : bool
 
 const SPEED = 5.0
 const LERP_VAL = .125
@@ -27,17 +28,20 @@ func _ready():
 	destination = position
 
 func _physics_process(delta):
+	reached = false
+	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
 	move_and_slide()
 	
-	velocity = Vector3.ZERO
-	agent.set_target_position(destination)
-	var next_point = agent.get_next_path_position()
-	velocity = (next_point - global_transform.origin).normalized() * SPEED
+	var current_location = global_transform.origin
+	var next_location = agent.get_next_path_position()
+	var new_velocity = (next_location - current_location).normalized() * SPEED
 	rotation.y = lerp_angle(rotation.y, atan2(velocity.x, velocity.z), LERP_VAL)
+	
+	velocity = new_velocity
 
 func _process(_delta):
 	if TestScript.selected_num == playermive_num:
@@ -55,4 +59,8 @@ func _process(_delta):
 
 func _on_mive_go():
 	if MivesMoveCommands.mive == playermive_num:
-		destination = MivesMoveCommands.position
+		agent.target_position = MivesMoveCommands.position
+
+
+func _target_reached():
+	reached = true

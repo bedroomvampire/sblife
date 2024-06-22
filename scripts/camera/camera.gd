@@ -58,11 +58,9 @@ func qwertyuiop():
 	is_click = false
 
 func _on_control_mouse_entered():
-	print("asdasd")
 	has_entered = true
 
 func _on_control_mouse_exited():
-	print("wrywr")
 	has_entered = false
 
 

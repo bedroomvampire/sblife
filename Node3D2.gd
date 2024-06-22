@@ -6,7 +6,7 @@ extends CharacterBody3D
 @onready var node = $Node3D
 @onready var raycast = $RayCast3D
 
-const normal_speed = 12.5
+const normal_speed = 9.375
 const shift_speed = 25.0
 
 var SPEED = 20.0
@@ -15,7 +15,7 @@ var cam_sensitivity : float = 0.0035
 var mouse_pos : Vector2
 var target : CharacterBody3D
 
-var min_zoom : float = 7.5
+var min_zoom : float = 4.5
 var max_zoom : float = 60
 var zoom_factor : float = 2
 var zoom_duration : float = 5

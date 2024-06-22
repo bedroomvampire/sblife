@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://cmuc10t6snwjh"]
+[gd_scene load_steps=6 format=3 uid="uid://cmuc10t6snwjh"]
 
-[ext_resource type="Script" path="res://CharacterBody3D.gd" id="1_crkmh"]
+[ext_resource type="Script" path="res://entities/placeholder/scripts/mive_script.gd" id="1_nujx1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f5act"]
 radius = 0.375
@@ -14,14 +14,24 @@ rings = 16
 top_radius = 0.0
 bottom_radius = 0.25
 height = 0.5
-radial_segments = 16
+radial_segments = 6
 rings = 0
 cap_top = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2780b"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.741176)
+metallic = 1.0
+metallic_specular = 1.0
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.5
+backlight = Color(0.75, 0.75, 0.75, 1)
 
 [node name="CharacterBody3D" type="CharacterBody3D"]
 collision_layer = 8
 collision_mask = 7
-script = ExtResource("1_crkmh")
+script = ExtResource("1_nujx1")
 
 [node name="Mives" type="Node" parent="."]
 
@@ -36,8 +46,10 @@ mesh = SubResource("CapsuleMesh_78rch")
 [node name="Indicator" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 mesh = SubResource("CylinderMesh_ij4yu")
+surface_material_override/0 = SubResource("StandardMaterial3D_2780b")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 2.0
 avoidance_enabled = true
 height = 2.0
 use_3d_avoidance = true
@@ -49,3 +61,4 @@ height = 2.0
 use_3d_avoidance = true
 
 [connection signal="moveSomewhere" from="." to="." method="_on_sim_go"]
+[connection signal="target_reached" from="NavigationAgent3D" to="." method="_target_reached"]

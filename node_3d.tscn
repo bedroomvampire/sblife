@@ -396,6 +396,23 @@ target_position = Vector3(0, -1024, 0)
 collision_mask = 5
 hit_from_inside = true
 
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+offset_right = 120.0
+offset_bottom = 66.0
+mouse_filter = 0
+
+[node name="Button" type="Button" parent="VBoxContainer2"]
+layout_mode = 2
+mouse_filter = 1
+text = "Select..."
+alignment = 0
+
+[node name="Button2" type="Button" parent="VBoxContainer2"]
+layout_mode = 2
+mouse_filter = 1
+text = "Select random"
+alignment = 0
+
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -464,5 +481,11 @@ text = "4"
 [connection signal="mouse_entered" from="Camera/Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button2" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Camera/Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button2" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_exited"]
 [connection signal="pressed" from="Camera/Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button2" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_walk_and_switch_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer2/Button" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer2/Button" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="VBoxContainer2/Button2" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer2/Button2" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_exited"]
 [connection signal="mouse_entered" from="Control" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="Control/ColorRect2" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control/ColorRect2" to="Camera/Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_exited"]
