@@ -1,0 +1,72 @@
+[gd_scene load_steps=10 format=3 uid="uid://8xpwx2urr6uv"]
+
+[ext_resource type="PackedScene" uid="uid://jcxhky4oqfp8" path="res://entities/camera/camera.tscn" id="1_3fyys"]
+[ext_resource type="Shader" path="res://testing/build/scripts/buildtest.gdshader" id="2_loxys"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_t86qa"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_i6jri"]
+sky_material = SubResource("ProceduralSkyMaterial_t86qa")
+
+[sub_resource type="Environment" id="Environment_htoah"]
+background_mode = 2
+sky = SubResource("Sky_i6jri")
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kak0y"]
+albedo_color = Color(0.25, 0.25, 0.25, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b05c4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bq310"]
+render_priority = 0
+shader = ExtResource("2_loxys")
+shader_parameter/line_width = 0.04
+shader_parameter/grid_size = 1.0
+shader_parameter/line_color = Color(1, 1, 1, 0.741176)
+shader_parameter/fill_color = Color(0, 0, 0, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ggti8"]
+material = SubResource("ShaderMaterial_bq310")
+size = Vector2(8192, 8192)
+
+[node name="build test" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_htoah")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+
+[node name="Camera" parent="." instance=ExtResource("1_3fyys")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+collision_mask = 7
+size = Vector3(8192, 1, 8192)
+material = SubResource("StandardMaterial3D_kak0y")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, -3.5)
+use_collision = true
+collision_layer = 2
+collision_mask = 7
+material = SubResource("StandardMaterial3D_b05c4")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -3.25)
+use_collision = true
+collision_layer = 2
+collision_mask = 7
+size = Vector3(2, 2, 0.5)
+material = SubResource("StandardMaterial3D_b05c4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("PlaneMesh_ggti8")
+
+[editable path="Camera"]

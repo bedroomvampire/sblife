@@ -49,7 +49,7 @@ mesh = SubResource("CylinderMesh_ij4yu")
 surface_material_override/0 = SubResource("StandardMaterial3D_2780b")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-path_desired_distance = 2.0
+path_desired_distance = 0.5
 avoidance_enabled = true
 height = 2.0
 use_3d_avoidance = true
