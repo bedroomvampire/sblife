@@ -5,7 +5,7 @@ signal moveSomewhere
 @onready var agent = $NavigationAgent3D
 @onready var plumbob = $Plummob
 
-@export var playermive_num : int
+var playermive_num : int
 @export var first_name = "John"
 @export var sur_name = "Doe"
 
@@ -21,6 +21,7 @@ const JUMP_VELOCITY = 4.5
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
+	playermive_num += TestScript.mives_available + 1
 	TestScript.mives_available += 1
 	MivesMoveCommands.miveMoveCommands.emit(moveSomewhere)
 	destination = position

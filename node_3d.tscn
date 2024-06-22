@@ -313,21 +313,17 @@ texture = ExtResource("5_75pp0")
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("2_hul1p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 1)
-playermive_num = 1
 
 [node name="CharacterBody3D2" parent="." instance=ExtResource("2_hul1p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 4, 2)
-playermive_num = 2
 first_name = "Jane"
 
 [node name="CharacterBody3D3" parent="." instance=ExtResource("2_hul1p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 4, -4.5)
-playermive_num = 3
 first_name = "Jack"
 
 [node name="CharacterBody3D4" parent="." instance=ExtResource("2_hul1p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 6)
-playermive_num = 4
 first_name = "Joe"
 
 [node name="Camera" type="CharacterBody3D" parent="."]

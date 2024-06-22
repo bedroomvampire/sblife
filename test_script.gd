@@ -1,6 +1,6 @@
 extends Node
 
-var mives_available : int
+var mives_available : int = 0
 var selected_num : int
 var pos : Vector3
 
