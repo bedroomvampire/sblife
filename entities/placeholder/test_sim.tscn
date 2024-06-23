@@ -45,6 +45,7 @@ mesh = SubResource("CapsuleMesh_78rch")
 
 [node name="Indicator" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+cast_shadow = 0
 mesh = SubResource("CylinderMesh_ij4yu")
 surface_material_override/0 = SubResource("StandardMaterial3D_2780b")
 
