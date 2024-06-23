@@ -1,22 +1,85 @@
-[gd_scene load_steps=14 format=3 uid="uid://8xpwx2urr6uv"]
+[gd_scene load_steps=20 format=3 uid="uid://dlndh1pyyuvvj"]
 
-[ext_resource type="Script" path="res://Node3D2.gd" id="1_jg8qx"]
-[ext_resource type="Shader" path="res://testing/build/scripts/buildtest.gdshader" id="2_loxys"]
-[ext_resource type="Texture2D" uid="uid://ct4j8caps48y5" path="res://icon.svg" id="2_pu3nd"]
+[ext_resource type="Script" path="res://Node3D2.gd" id="1_jbc7m"]
+[ext_resource type="Texture2D" uid="uid://ct4j8caps48y5" path="res://icon.svg" id="2_mqr8a"]
+[ext_resource type="Shader" path="res://testing/build/scripts/buildtest.gdshader" id="3_203kp"]
+[ext_resource type="PackedScene" uid="uid://ci4i0nr7bgivf" path="res://scenes/placeholders/framerate_counter.tscn" id="4_stt50"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_t86qa"]
+[sub_resource type="StandardMaterial3D" id="3"]
+albedo_color = Color(0.0666667, 0.498039, 0.027451, 1)
+roughness = 0.8
+
+[sub_resource type="PlaneMesh" id="4"]
+material = SubResource("3")
+size = Vector2(50, 50)
+
+[sub_resource type="ConvexPolygonShape3D" id="5"]
+points = PackedVector3Array(25, 0, 25, -25, 0, 25, 25, 0, -25, -25, 0, -25)
+
+[sub_resource type="GDScript" id="GDScript_pjvb4"]
+script/source = "extends Node3D
+
+@onready var current_wall = $\"../Wall\".duplicate()
+@onready var camera = $\"../Camera\"
+var to_round : float
+var snap : int
+var new_rot : Vector3
+
+func _ready():
+	add_child(current_wall)
+
+func round_to_nearest(to_round,snap) -> float:
+	return snap * round(to_round / snap as float)
+
+func _physics_process(_delta):
+	var space_state := get_world_3d().direct_space_state
+	var mouse_pos = get_viewport().get_mouse_position()
+	var from = camera.camera.project_ray_origin(mouse_pos)
+	var to = from + camera.camera.project_ray_normal(mouse_pos) * 1000.0
+	var query := PhysicsRayQueryParameters3D.create(from, to)
+	var result = space_state.intersect_ray(query)
+	if not result.is_empty():
+		current_wall.position = result.position
+		current_wall.position.y = 1
+		current_wall.position.x = round_to_nearest(current_wall.position.x, 1)
+		current_wall.position.z = round_to_nearest(current_wall.position.z, 1)
+	
+	if Input.is_action_just_pressed(\"<\"):
+		current_wall.rotate_object_local(Vector3.UP, deg_to_rad(90))
+	elif Input.is_action_just_pressed(\">\"):
+		current_wall.rotate_object_local(Vector3.UP, deg_to_rad(-90))
+	
+	if Input.is_action_just_pressed(\"left_click\"):
+		new_rot = current_wall.rotation
+		current_wall = $\"../Wall\".duplicate()
+		add_child(current_wall)
+		current_wall.rotation = new_rot
+"
+
+[sub_resource type="StandardMaterial3D" id="1"]
+albedo_color = Color(0.556863, 0.207843, 0.207843, 1)
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="BoxMesh_8bwv0"]
+material = SubResource("1")
+size = Vector3(2, 4, 0.25)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0kti6"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 
-[sub_resource type="Sky" id="Sky_bxcgx"]
-sky_material = SubResource("ProceduralSkyMaterial_t86qa")
+[sub_resource type="Sky" id="Sky_i6jri"]
+sky_material = SubResource("ProceduralSkyMaterial_0kti6")
 
-[sub_resource type="Environment" id="Environment_htoah"]
+[sub_resource type="Environment" id="Environment_hukn5"]
 background_mode = 2
-sky = SubResource("Sky_bxcgx")
+sky = SubResource("Sky_i6jri")
 tonemap_mode = 2
+fog_enabled = true
+fog_density = 0.005
+fog_sky_affect = 0.0
 
-[sub_resource type="GDScript" id="GDScript_6f7ct"]
+[sub_resource type="GDScript" id="GDScript_me8mj"]
 script/source = "extends Camera3D
 
 @onready var area = $PlayerArea3D
@@ -82,37 +145,58 @@ func _on_walk_and_switch_pressed():
 	is_click = false
 "
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ftqj6"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hokm5"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qgfb5"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ks8uy"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kak0y"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_byvox"]
 albedo_color = Color(0.25, 0.25, 0.25, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b05c4"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pg47t"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bq310"]
 render_priority = 0
-shader = ExtResource("2_loxys")
+shader = ExtResource("3_203kp")
 shader_parameter/line_width = 0.04
 shader_parameter/grid_size = 1.0
 shader_parameter/line_color = Color(1, 1, 1, 0.741176)
 shader_parameter/fill_color = Color(0, 0, 0, 0)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_ggti8"]
-material = SubResource("ShaderMaterial_pg47t")
+[sub_resource type="PlaneMesh" id="PlaneMesh_55ytl"]
+material = SubResource("ShaderMaterial_bq310")
 size = Vector2(8192, 8192)
 
-[node name="build test" type="Node3D"]
+[node name="World" type="Node3D"]
+
+[node name="Camer" type="Camera3D" parent="."]
+transform = Transform3D(0.707107, 0.353553, -0.612372, 0, 0.866025, 0.5, 0.707107, -0.353553, 0.612372, -20, 15, 20)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+visible = false
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("4")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("5")
+
+[node name="BuildingManager" type="Node3D" parent="."]
+script = SubResource("GDScript_pjvb4")
+
+[node name="Wall" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, -7.5, 0)
+
+[node name="WallMesh" type="MeshInstance3D" parent="Wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("BoxMesh_8bwv0")
+skeleton = NodePath("../..")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_htoah")
+environment = SubResource("Environment_hukn5")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
 
 [node name="Camera" type="CharacterBody3D" parent="."]
-script = ExtResource("1_jg8qx")
+script = ExtResource("1_jbc7m")
 
 [node name="Node3D" type="Node3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
@@ -127,12 +211,12 @@ spring_length = 30.0
 [node name="Camera3D" type="Camera3D" parent="Camera/Node3D/Marker3D/SpringArm3D"]
 current = true
 fov = 45.0
-script = SubResource("GDScript_6f7ct")
+script = SubResource("GDScript_me8mj")
 
 [node name="PlayerArea3D" type="Area3D" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D/PlayerArea3D"]
-shape = SubResource("CapsuleShape3D_ftqj6")
+shape = SubResource("CapsuleShape3D_hokm5")
 
 [node name="Sprite3D" type="Sprite3D" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 0.63876, -0.769406, 0, 0.769406, 0.63876, 11.0665, 12.5428, -29.1139)
@@ -140,7 +224,7 @@ visible = false
 billboard = 1
 double_sided = false
 no_depth_test = true
-texture = ExtResource("2_pu3nd")
+texture = ExtResource("2_mqr8a")
 
 [node name="Sprite3D2" type="Sprite3D" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.53674e-07, 0.5)
@@ -148,11 +232,11 @@ modulate = Color(1, 1, 1, 0.498039)
 billboard = 1
 shaded = true
 no_depth_test = true
-texture = ExtResource("2_pu3nd")
+texture = ExtResource("2_mqr8a")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CapsuleShape3D_qgfb5")
+shape = SubResource("CapsuleShape3D_ks8uy")
 disabled = true
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera"]
@@ -166,23 +250,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 use_collision = true
 collision_mask = 7
 size = Vector3(8192, 1, 8192)
-material = SubResource("StandardMaterial3D_kak0y")
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, -3.5)
-use_collision = true
-collision_layer = 2
-collision_mask = 7
-material = SubResource("StandardMaterial3D_b05c4")
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -3.25)
-use_collision = true
-collision_layer = 2
-collision_mask = 7
-size = Vector3(2, 2, 0.5)
-material = SubResource("StandardMaterial3D_b05c4")
+material = SubResource("StandardMaterial3D_byvox")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
-mesh = SubResource("PlaneMesh_ggti8")
+mesh = SubResource("PlaneMesh_55ytl")
+
+[node name="Framerate Counter" parent="." instance=ExtResource("4_stt50")]

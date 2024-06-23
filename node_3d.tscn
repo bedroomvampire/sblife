@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://bq5r4md5xxphn"]
+[gd_scene load_steps=15 format=3 uid="uid://bq5r4md5xxphn"]
 
 [ext_resource type="Script" path="res://sim_counter.gd" id="1_tij4t"]
 [ext_resource type="PackedScene" uid="uid://cmuc10t6snwjh" path="res://entities/placeholder/test_sim.tscn" id="2_hul1p"]
 [ext_resource type="PackedScene" uid="uid://jcxhky4oqfp8" path="res://entities/camera/camera.tscn" id="4_s34vc"]
 [ext_resource type="Texture2D" uid="uid://ct4j8caps48y5" path="res://icon.svg" id="5_75pp0"]
 [ext_resource type="Script" path="res://label.gd" id="6_obc5f"]
+[ext_resource type="PackedScene" uid="uid://ci4i0nr7bgivf" path="res://scenes/placeholders/framerate_counter.tscn" id="7_f5yhj"]
 [ext_resource type="Script" path="res://HBoxContainer.gd" id="7_l58ug"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eoy2t"]
@@ -412,5 +413,7 @@ text = "3"
 [node name="Button4" type="Button" parent="Control/HBoxContainer"]
 layout_mode = 2
 text = "4"
+
+[node name="Framerate Counter" parent="." instance=ExtResource("7_f5yhj")]
 
 [editable path="Camera"]
