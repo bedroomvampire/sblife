@@ -3,6 +3,7 @@ extends Camera3D
 @onready var area = $PlayerArea3D
 @onready var main_cursor = $Sprite3D
 @onready var hit_cursor = $Sprite3D2
+@export var walk_prompt : Control
 var hit : Dictionary
 var is_click : bool
 var has_entered : bool
@@ -48,21 +49,21 @@ func floor_point_from_mouse_position() -> Vector3:
 
 func asdfghjkl():
 	var mouse_pos = get_viewport().get_mouse_position()
-	$VBoxContainer.position = mouse_pos
-	$VBoxContainer.visible = true
+	walk_prompt.position = mouse_pos
+	walk_prompt.visible = true
 	is_click = true
 
 func _on_walk_herebutton_pressed():
 	MivesMoveCommands.move_mive(TestScript.selected_num, hit_cursor.global_position)
-	$VBoxContainer.visible = false
+	walk_prompt.visible = false
 	is_click = false
 
 func qwertyuiop():
-	$VBoxContainer.visible = false
+	walk_prompt.visible = false
 	is_click = false
 
 func _on_walk_and_switch_pressed():
 	MivesMoveCommands.move_mive(TestScript.selected_num, hit_cursor.global_position)
 	TestScript.switch_mive_forward()
-	$VBoxContainer.visible = false
+	walk_prompt.visible = false
 	is_click = false

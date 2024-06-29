@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-@export var prompt : VBoxContainer
+@export var prompt : Control
 
 var is_click : bool
 
