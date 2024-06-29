@@ -10,11 +10,10 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _input(event):
 	if Input.is_action_just_pressed("left_click"):
-		if !TestScript.has_entered:
-			#qwertyuiop()
-			pass
+		if !TestScript.has_entered && is_click:
+			qwertyuiop()
 	
 	if Input.is_action_just_pressed("ui_cancel"):
 		if is_click:
