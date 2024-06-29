@@ -75,7 +75,6 @@ sky_material = SubResource("ProceduralSkyMaterial_0kti6")
 background_mode = 2
 sky = SubResource("Sky_i6jri")
 tonemap_mode = 2
-fog_enabled = true
 fog_density = 0.005
 fog_sky_affect = 0.0
 

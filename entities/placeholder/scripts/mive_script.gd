@@ -24,6 +24,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 func _ready():
 	playermive_num += TestScript.mives_available + 1
 	TestScript.mives_available += 1
+	TestScript.mives_array.resize(TestScript.mives_available)
+	TestScript.mives_array.fill(self)
 	MivesMoveCommands.miveMoveCommands.emit(moveSomewhere)
 	destination = position
 
@@ -51,6 +53,7 @@ func _process(_delta):
 	
 	if active:
 		indicator.visible = true
+		TestScript.follow_position = global_position
 	else:
 		indicator.visible = false
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bq5r4md5xxphn"]
+[gd_scene load_steps=19 format=3 uid="uid://bq5r4md5xxphn"]
 
 [ext_resource type="Script" path="res://sim_counter.gd" id="1_tij4t"]
 [ext_resource type="PackedScene" uid="uid://cmuc10t6snwjh" path="res://entities/placeholder/test_sim.tscn" id="2_hul1p"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://label.gd" id="6_obc5f"]
 [ext_resource type="PackedScene" uid="uid://ci4i0nr7bgivf" path="res://scenes/placeholders/framerate_counter.tscn" id="7_f5yhj"]
 [ext_resource type="Script" path="res://HBoxContainer.gd" id="7_l58ug"]
+[ext_resource type="Script" path="res://scenes/placeholders/test_interactive_object.gd" id="8_tnhnx"]
+[ext_resource type="PackedScene" uid="uid://bx04uk1ucn11s" path="res://entities/hover_detection.tscn" id="9_x3y00"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eoy2t"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -21,13 +23,10 @@ sky = SubResource("Sky_civla")
 tonemap_mode = 2
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_il3mm"]
-vertices = PackedVector3Array(-49.55, 0.02, -49.55, -49.55, 0.02, -27.5, -11.3, 0.02, -27.5, -49.55, 0.02, -49.55, -11.3, 0.02, -27.5, -9.95, 0.02, -27.5, 1.3, 0.02, -27.5, 49.45, 0.02, -27.5, 49.45, 0.02, -49.55, -0.0500031, 0.02, -27.5, 1.3, 0.02, -27.5, 49.45, 0.02, -49.55, -49.55, 0.02, -49.55, -9.95, 0.02, -27.5, -0.0500031, 0.02, -27.5, -49.55, 0.02, -49.55, -49.55, 0.02, -25.25, -11.3, 0.02, -25.25, -11.3, 0.02, -27.5, -49.55, 0.02, -27.5, -9.95, 0.02, -25.25, -0.0500031, 0.02, -25.25, -0.0500031, 0.02, -27.5, -9.95, 0.02, -27.5, 1.3, 0.02, -25.25, 49.45, 0.02, -25.25, 49.45, 0.02, -27.5, 1.3, 0.02, -27.5, -49.55, 0.02, -25.25, -49.55, 0.02, -12.65, -22.1, 0.02, -12.65, -11.3, 0.02, -25.25, 1.3, 0.02, -12.65, 49.45, 0.02, -12.65, 49.45, 0.02, -25.25, 1.3, 0.02, -25.25, -11.3, 0.02, -25.25, -22.1, 0.02, -12.65, -20.75, 0.02, -12.65, -11.3, 0.02, -25.25, -20.75, 0.02, -12.65, -11.3, 0.02, -12.65, -9.95, 0.02, -25.25, 1.3, 0.02, -25.25, -0.0500031, 0.02, -25.25, 1.3, 0.02, -12.65, -0.0500031, 0.02, -25.25, -9.95, 0.02, -25.25, -11.3, 0.02, -12.65, 1.3, 0.02, -12.65, 0.849998, 4.02, -9.5, 0.849998, 4.02, -10.4, -1.85, 4.02, -10.85, -2.3, 4.02, -10.85, -9.5, 4.02, -10.4, -9.95, 4.02, -9.5, -2.75, 4.02, -12.65, -1.85, 4.02, -12.2, -0.5, 4.02, -12.65, -0.5, 4.02, -25.25, -9.5, 4.02, -25.25, -9.5, 4.02, -12.65, -2.75, 4.02, -12.65, -0.5, 4.02, -25.25, -1.85, 4.02, -12.2, -2.75, 4.02, -12.65, -2.3, 4.02, -10.85, -1.85, 4.02, -10.85, -49.55, 0.02, -10.4, -22.1, 0.02, -10.4, -22.1, 0.02, -12.65, -49.55, 0.02, -12.65, -11.3, 0.02, -12.65, -20.75, 0.02, -12.65, -20.3, 0.02, -10.85, -11.3, 0.02, -12.65, -20.3, 0.02, -10.85, -22.1, 0.02, -10.4, -20.75, 0.02, 2.2, -11.75, 0.02, 2.2, -22.1, 0.02, 2.2, -20.75, 0.02, 2.2, -22.1, 0.02, -10.4, -22.1, 0.02, -10.4, -49.55, 0.02, -10.4, -49.55, 0.02, 2.2, -22.1, 0.02, 2.2, 1.3, 0.02, 4.9, 49.45, 0.02, 4.9, 49.45, 0.02, -12.65, 1.3, 0.02, -12.65, -10.4, 8.02, 2.2, -10.4, 8.02, -10.4, -11.3, 8.02, -4.1, -11.3, 8.02, -3.65, -20.75, 8.02, -3.65, -11.3, 8.02, -3.65, -11.3, 8.02, -4.1, -20.75, 8.02, -4.1, -20.75, 8.02, -4.1, -21.65, 8.02, -10.4, -21.65, 8.02, 2.2, -20.75, 8.02, -3.65, -11.75, 4.02, -10.4, -20.3, 4.02, -10.4, -20.3, 4.02, -8.6, -11.3, 4.02, -8.6, -11.3, 4.02, -9.5, -9.95, 4.02, -8.6, 0.849998, 4.02, -8.6, 0.849998, 4.02, -9.5, -9.95, 4.02, -9.5, -11.3, 4.02, -8.6, -9.95, 4.02, -8.6, -9.95, 4.02, -9.5, -11.3, 4.02, -9.5, -2.75, 0.02, -8.15, -2.3, 0.02, -6.8, -0.5, 0.02, -6.8, -0.5, 0.02, -10.4, -3.65, 0.02, -8.15, -0.5, 0.02, -10.4, -9.5, 0.02, -10.4, -9.5, 0.02, -8.15, -3.65, 0.02, -8.15, -2.75, 0.02, -8.15, -0.5, 0.02, -10.4, -20.3, 4.02, -8.6, -20.3, 4.02, -5, -11.75, 4.02, -5, -11.3, 4.02, -8.6, 0.399998, 4.02, -6.35, 0.849998, 4.02, 2.2, 0.849998, 4.02, -8.6, -5.45, 0.02, 2.65, -5.9, 0.02, 4.9, -4.1, 0.02, 4.9, -4.1, 0.02, 2.2, -9.95, 4.02, -8.6, -9.5, 4.02, -8.15, -3.65, 4.02, -8.15, 0.849998, 4.02, -8.6, -0.5, 3.59, -6.35, 0.399998, 4.02, -6.35, 0.849998, 4.02, -8.6, -2.3, 4.02, -7.7, -3.65, 0.02, 0.399998, -9.5, 0.02, 0.399998, -9.5, 0.02, 2.2, -5.45, 0.02, 2.65, -4.1, 0.02, 2.2, -2.3, 0.02, -0.0500031, -0.5, 0.02, 2.2, -0.5, 3.59, -6.35, -2.3, 4.02, -7.7, -2.3, 2.8, -5.15, -2.3, 1.24, -2.6, -0.5, 0.02, 0.0624962, -0.5, 0.98, -2.075, -0.5, 2.28, -4.2125, 0.849998, 4.02, -8.6, -3.65, 4.02, -8.15, -2.3, 4.02, -7.7, -2.3, 0.02, -0.0500031, -3.65, 0.02, 0.399998, -4.1, 0.02, 2.2, -0.5, 0.02, 2.2, -9.5, 0.02, 0.399998, -3.65, 0.02, 0.399998, -3.65, 0.02, -8.15, -9.5, 0.02, -8.15, -4.1, 4.02, -1.85, -3.65, 4.02, -8.15, -9.5, 4.02, -8.15, -9.95, 4.02, -1.85, -9.95, 4.02, -0.950001, -4.1, 4.02, -0.950001, -4.1, 4.02, -1.85, -9.95, 4.02, -1.85, -11.75, 4.02, -2.75, -20.3, 4.02, -2.75, -20.3, 4.02, -0.950001, -11.3, 4.02, -0.950001, -11.3, 4.02, -1.85, -11.3, 4.02, -0.950001, -9.95, 4.02, -0.950001, -9.95, 4.02, -1.85, -11.3, 4.02, -1.85, -20.3, 4.02, -0.950001, -20.3, 4.02, 2.2, -11.75, 4.02, 2.2, -11.3, 4.02, -0.950001, -3.2, 4.02, 2.65, -3.2, 4.02, 0.399998, -4.1, 4.02, -0.0500031, -9.95, 4.02, -0.950001, -9.5, 4.02, 4, -0.5, 4.02, 4, -0.5, 4.02, 3.1, -3.2, 4.02, 2.65, -9.5, 4.02, 4, -4.1, 4.02, -0.0500031, -4.1, 4.02, -0.950001, -9.95, 4.02, -0.950001, -49.55, 0.02, 4.9, -22.1, 0.02, 4.9, -22.1, 0.02, 2.2, -49.55, 0.02, 2.2, -20.75, 0.02, 4.9, -11.3, 0.02, 4.9, -11.75, 0.02, 2.2, -20.75, 0.02, 2.2, -20.3, 8.02, 3.1, -20.3, 8.02, 4, -11.75, 8.02, 4, -11.75, 8.02, 3.1, -22.1, 0.02, 4.9, -49.55, 0.02, 4.9, -49.55, 0.02, 49.45, -20.75, 0.02, 4.9, -22.1, 0.02, 4.9, -49.55, 0.02, 49.45, -11.3, 0.02, 4.9, -20.75, 0.02, 4.9, -49.55, 0.02, 49.45, -5.9, 0.02, 4.9, -11.3, 0.02, 4.9, -49.55, 0.02, 49.45, -4.1, 0.02, 4.9, -5.9, 0.02, 4.9, -49.55, 0.02, 49.45, 49.45, 0.02, 49.45, 49.45, 0.02, 4.9, 1.3, 0.02, 4.9, 1.3, 0.02, 4.9, -4.1, 0.02, 4.9, -49.55, 0.02, 49.45, 49.45, 0.02, 49.45)
-polygons = [PackedInt32Array(0, 2, 1), PackedInt32Array(5, 4, 3), PackedInt32Array(8, 7, 6), PackedInt32Array(10, 9, 11), PackedInt32Array(11, 9, 12), PackedInt32Array(15, 14, 13), PackedInt32Array(19, 18, 16), PackedInt32Array(16, 18, 17), PackedInt32Array(23, 22, 20), PackedInt32Array(20, 22, 21), PackedInt32Array(27, 26, 24), PackedInt32Array(24, 26, 25), PackedInt32Array(29, 28, 30), PackedInt32Array(30, 28, 31), PackedInt32Array(35, 34, 32), PackedInt32Array(32, 34, 33), PackedInt32Array(38, 37, 36), PackedInt32Array(42, 41, 39), PackedInt32Array(39, 41, 40), PackedInt32Array(45, 44, 43), PackedInt32Array(47, 46, 48), PackedInt32Array(48, 46, 49), PackedInt32Array(52, 51, 53), PackedInt32Array(53, 51, 50), PackedInt32Array(53, 50, 54), PackedInt32Array(54, 50, 55), PackedInt32Array(57, 56, 58), PackedInt32Array(58, 56, 59), PackedInt32Array(61, 60, 62), PackedInt32Array(62, 60, 63), PackedInt32Array(67, 66, 64), PackedInt32Array(64, 66, 65), PackedInt32Array(71, 70, 68), PackedInt32Array(68, 70, 69), PackedInt32Array(74, 73, 72), PackedInt32Array(76, 75, 77), PackedInt32Array(77, 75, 78), PackedInt32Array(78, 75, 79), PackedInt32Array(82, 81, 80), PackedInt32Array(86, 85, 83), PackedInt32Array(83, 85, 84), PackedInt32Array(90, 89, 87), PackedInt32Array(87, 89, 88), PackedInt32Array(94, 93, 91), PackedInt32Array(91, 93, 92), PackedInt32Array(98, 97, 95), PackedInt32Array(95, 97, 96), PackedInt32Array(102, 101, 99), PackedInt32Array(99, 101, 100), PackedInt32Array(107, 106, 103), PackedInt32Array(103, 106, 104), PackedInt32Array(104, 106, 105), PackedInt32Array(111, 110, 108), PackedInt32Array(108, 110, 109), PackedInt32Array(115, 114, 112), PackedInt32Array(112, 114, 113), PackedInt32Array(117, 116, 118), PackedInt32Array(118, 116, 119), PackedInt32Array(123, 122, 120), PackedInt32Array(120, 122, 121), PackedInt32Array(126, 125, 124), PackedInt32Array(128, 127, 129), PackedInt32Array(129, 127, 130), PackedInt32Array(133, 132, 131), PackedInt32Array(135, 134, 136), PackedInt32Array(136, 134, 137), PackedInt32Array(139, 138, 140), PackedInt32Array(140, 138, 141), PackedInt32Array(143, 142, 144), PackedInt32Array(144, 142, 145), PackedInt32Array(150, 149, 146), PackedInt32Array(146, 149, 148), PackedInt32Array(146, 148, 147), PackedInt32Array(152, 151, 157), PackedInt32Array(157, 151, 158), PackedInt32Array(158, 151, 156), PackedInt32Array(158, 156, 159), PackedInt32Array(159, 156, 155), PackedInt32Array(159, 155, 153), PackedInt32Array(153, 155, 154), PackedInt32Array(162, 161, 160), PackedInt32Array(164, 163, 165), PackedInt32Array(165, 163, 166), PackedInt32Array(170, 169, 167), PackedInt32Array(167, 169, 168), PackedInt32Array(174, 173, 171), PackedInt32Array(171, 173, 172), PackedInt32Array(178, 177, 175), PackedInt32Array(175, 177, 176), PackedInt32Array(183, 182, 179), PackedInt32Array(179, 182, 180), PackedInt32Array(180, 182, 181), PackedInt32Array(187, 186, 184), PackedInt32Array(184, 186, 185), PackedInt32Array(189, 188, 190), PackedInt32Array(190, 188, 191), PackedInt32Array(193, 192, 194), PackedInt32Array(194, 192, 196), PackedInt32Array(194, 196, 195), PackedInt32Array(198, 197, 199), PackedInt32Array(199, 197, 200), PackedInt32Array(203, 202, 201), PackedInt32Array(207, 206, 204), PackedInt32Array(204, 206, 205), PackedInt32Array(211, 210, 208), PackedInt32Array(208, 210, 209), PackedInt32Array(215, 214, 212), PackedInt32Array(212, 214, 213), PackedInt32Array(218, 217, 216), PackedInt32Array(221, 220, 219), PackedInt32Array(224, 223, 222), PackedInt32Array(227, 226, 225), PackedInt32Array(230, 229, 228), PackedInt32Array(233, 232, 231), PackedInt32Array(235, 234, 236), PackedInt32Array(236, 234, 237)]
-sample_partition_type = 1
-cell_size = 0.45
-cell_height = 0.01
+vertices = PackedVector3Array(-20, 0.5, -11.5, -11.5, 0.5, -11, -11.5, 0.5, -12, -20.5, 0.5, -12.5, -20, 0.5, -11.5, -11.5, 0.5, -12, -10, 0.5, -12.5, -10.5, 0.5, -25, -11.5, 0.5, -25.5, -22, 0.5, -12.5, -11.5, 0.5, -27, -10.5, 0.5, -49.5, -49.5, 0.5, -49.5, -49.5, 0.5, -11.5, -11.5, 0.5, -27, -10.5, 0.5, -27.5, -10.5, 0.5, -49.5, -49.5, 0.5, -11.5, -22.5, 0.5, -11.5, -22, 0.5, -12.5, -22, 0.5, -12.5, -20.5, 0.5, -12.5, -11.5, 0.5, -25.5, -11.5, 0.5, -27, -9.5, 0.5, -27.5, -9, 0.5, -26.5, -0.5, 0.5, -26.5, 0, 0.5, -27.5, 1, 0.5, -49.5, -10.5, 0.5, -49.5, -10.5, 0.5, -49.5, -10.5, 0.5, -27.5, -9.5, 0.5, -27.5, 0, 0.5, -27.5, 1, 0.5, -27.5, 1, 0.5, -49.5, 0.5, 0.5, -25, 0.5, 0.5, -12.5, 2, 0.5, -12, 49.5, 0.5, -9.5, 2, 0.5, -26, 2, 0.5, -27, 2, 0.5, -26, 49.5, 0.5, -9.5, 1, 0.5, -49.5, 1, 0.5, -27.5, 2, 0.5, -27, 49.5, 0.5, -9.5, 49.5, 0.5, -49.5, 2, 0.5, -12, 2, 0.5, -9, 49.5, 0.5, -9.5, -0.5, 0.5, -25.5, -0.5, 0.5, -26.5, -9, 0.5, -26.5, 0.5, 0.5, -25, -0.5, 0.5, -25.5, -9, 0.5, -26.5, -10.5, 0.5, -25, -10, 0.5, -12.5, 0.5, 0.5, -12.5, -2.5, 4.5, -12.5, -2, 4.5, -11.5, -1.5, 4.5, -11.5, -0.5, 4.5, -12.5, -0.5, 4.5, -25, -9, 4.5, -25, -9, 4.5, -12.5, -2.5, 4.5, -12.5, -0.5, 4.5, -25, -22.5, 0.5, 3, -21.5, 0.5, 2.5, -21.5, 0.5, -10, -22.5, 0.5, -10.5, -49.5, 0.5, -11.5, -49.5, 0.5, 4, -22.5, 0.5, -10.5, -22.5, 0.5, -11.5, -49.5, 0.5, -11.5, -49.5, 0.5, 4, -22.5, 0.5, 4, -22.5, 0.5, 3, -20.5, 0.5, 2.5, -20, 0.5, 3.5, -11.5, 0.5, 3.5, -11.5, 0.5, -11, -20, 0.5, -11.5, -21.5, 0.5, -10, -21.5, 0.5, -10, -21.5, 0.5, 2.5, -20.5, 0.5, 2.5, -1.5, 4.5, -10.5, -1.5, 4.5, -11.5, -2, 4.5, -11.5, -2.5, 4.5, -10, -2, 0.5, -0.5, -0.5, 0.5, 2.5, -0.5, 4, -6.5, -2, 4.5, -7.5, -0.5, 0.5, 0.25, -0.5, 1.25, -2, -3, 0.5, 0.5, -4, 0.5, 0, -4, 0.5, 2.5, -0.5, 4, -6.5, 0.5, 4.5, -6.5, 1, 4.5, -9, -1.5, 4.5, -10.5, -2.5, 4.5, -10, -2, 4.5, -7.5, 1, 4.5, -9, 0.5, 4.5, -10, -1.5, 4.5, -10.5, -2.5, 4.5, -10, -4.5, 4.5, -10, -4, 4.5, -7.5, -2, 4.5, -7.5, -3, 0.5, 0.5, -4, 0.5, 2.5, -0.5, 0.5, 2.5, -2, 0.5, -0.5, -10, 8.5, -2.5, -10, 8.5, -5.5, -11, 8.5, -4, -11, 8.5, -3.5, -20.5, 8.5, -3.5, -11, 8.5, -3.5, -11, 8.5, -4, -20.5, 8.5, -4, -21.5, 8.5, -10, -21.5, 8.5, 2.5, -20.5, 8.5, -3.5, -20.5, 8.5, -4, -10, 4.5, -8.5, -10, 4.5, -9, -11, 4.5, -9, -11.5, 4.5, -8, -20, 4.5, -5, -11.5, 4.5, -5, -11.5, 4.5, -8, -20, 4.5, -10, -11.5, 4.5, -8, -11, 4.5, -9, -11.5, 4.5, -10, -20, 4.5, -10, -10, 4.5, -9, -10, 4.5, -8.5, -9, 4.5, -8, -4.5, 4.5, -10, -9.5, 4.5, -10, -10, 4.5, -1.5, -10, 4.5, -1, -9, 4.5, -0.5, -4, 4.5, 0, -9, 4.5, -2.5, -9, 4.5, 3.5, -3, 4.5, 3.5, -4, 4.5, 0, -9, 4.5, -0.5, -4, 4.5, -7.5, -4.5, 4.5, -10, -9, 4.5, -8, -9, 4.5, -2.5, -4, 4.5, 0, -5.5, 0.5, 2.5, -5, 0.5, 4, -4.5, 0.5, 4, -4, 0.5, 2.5, -4, 0.5, 0, -9, 0.5, 2.5, -5.5, 0.5, 2.5, -4, 0.5, 0, -4, 0.5, -7.5, -9, 0.5, -10, -4, 0.5, -7.5, -0.5, 0.5, -7.5, -0.5, 0.5, -10, -9, 0.5, -10, 2, 0.5, -9, 2, 0.5, 1, 49.5, 0.5, 1.5, 49.5, 0.5, -9.5, -10, 4.5, -1, -10, 4.5, -1.5, -11, 4.5, -1.5, -11.5, 4.5, -0.5, -20, 4.5, 2.5, -11.5, 4.5, 2.5, -11.5, 4.5, -0.5, -20, 4.5, -2.5, -11.5, 4.5, -0.5, -11, 4.5, -1.5, -11.5, 4.5, -2.5, -20, 4.5, -2.5, 1, 0.5, 5, -2, 0.5, 5, -1.5, 0.5, 49.5, 2, 0.5, 4, 1, 0.5, 5, -1.5, 0.5, 49.5, 49.5, 0.5, 49.5, 49.5, 0.5, 1.5, 49.5, 0.5, 1.5, 2, 0.5, 1, 2, 0.5, 4, -11, 0.5, 5, -11.5, 0.5, 3.5, -20, 0.5, 3.5, -21.5, 0.5, 5, -21.5, 0.5, 49.5, -8.5, 0.5, 49.5, -8.5, 0.5, 49.5, -8, 0.5, 5, -11, 0.5, 5, -21.5, 0.5, 5, -22.5, 0.5, 4, -49.5, 0.5, 4, -49.5, 0.5, 49.5, -21.5, 0.5, 49.5, -4, 0.5, 5, -4.5, 0.5, 4, -5, 0.5, 4, -6, 0.5, 5, -8.5, 0.5, 49.5, -1.5, 0.5, 49.5, -6, 0.5, 5, -8, 0.5, 5, -8.5, 0.5, 49.5, -1.5, 0.5, 49.5, -2, 0.5, 5, -4, 0.5, 5)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 3, 5), PackedInt32Array(5, 3, 6), PackedInt32Array(6, 3, 7), PackedInt32Array(7, 3, 8), PackedInt32Array(10, 9, 11), PackedInt32Array(11, 9, 13), PackedInt32Array(11, 13, 12), PackedInt32Array(16, 15, 14), PackedInt32Array(19, 18, 17), PackedInt32Array(21, 20, 22), PackedInt32Array(22, 20, 23), PackedInt32Array(25, 24, 26), PackedInt32Array(26, 24, 27), PackedInt32Array(27, 24, 29), PackedInt32Array(27, 29, 28), PackedInt32Array(32, 31, 30), PackedInt32Array(35, 34, 33), PackedInt32Array(37, 36, 38), PackedInt32Array(38, 36, 40), PackedInt32Array(38, 40, 39), PackedInt32Array(43, 42, 41), PackedInt32Array(45, 44, 46), PackedInt32Array(46, 44, 48), PackedInt32Array(46, 48, 47), PackedInt32Array(51, 50, 49), PackedInt32Array(54, 53, 52), PackedInt32Array(56, 55, 57), PackedInt32Array(57, 55, 58), PackedInt32Array(58, 55, 59), PackedInt32Array(59, 55, 60), PackedInt32Array(62, 61, 63), PackedInt32Array(63, 61, 64), PackedInt32Array(64, 61, 65), PackedInt32Array(67, 66, 68), PackedInt32Array(68, 66, 69), PackedInt32Array(71, 70, 72), PackedInt32Array(72, 70, 73), PackedInt32Array(73, 70, 75), PackedInt32Array(73, 75, 74), PackedInt32Array(78, 77, 76), PackedInt32Array(81, 80, 79), PackedInt32Array(83, 82, 84), PackedInt32Array(84, 82, 87), PackedInt32Array(84, 87, 86), PackedInt32Array(84, 86, 85), PackedInt32Array(90, 89, 88), PackedInt32Array(92, 91, 93), PackedInt32Array(93, 91, 94), PackedInt32Array(96, 95, 99), PackedInt32Array(99, 95, 100), PackedInt32Array(100, 95, 97), PackedInt32Array(97, 95, 98), PackedInt32Array(103, 102, 101), PackedInt32Array(104, 109, 105), PackedInt32Array(105, 109, 106), PackedInt32Array(106, 109, 107), PackedInt32Array(107, 109, 108), PackedInt32Array(110, 112, 111), PackedInt32Array(116, 115, 113), PackedInt32Array(113, 115, 114), PackedInt32Array(117, 120, 118), PackedInt32Array(118, 120, 119), PackedInt32Array(124, 123, 121), PackedInt32Array(121, 123, 122), PackedInt32Array(128, 127, 125), PackedInt32Array(125, 127, 126), PackedInt32Array(132, 131, 129), PackedInt32Array(129, 131, 130), PackedInt32Array(134, 133, 135), PackedInt32Array(135, 133, 136), PackedInt32Array(138, 137, 139), PackedInt32Array(139, 137, 140), PackedInt32Array(142, 141, 143), PackedInt32Array(143, 141, 144), PackedInt32Array(146, 145, 147), PackedInt32Array(147, 145, 149), PackedInt32Array(147, 149, 148), PackedInt32Array(151, 150, 152), PackedInt32Array(152, 150, 154), PackedInt32Array(152, 154, 153), PackedInt32Array(158, 157, 155), PackedInt32Array(155, 157, 156), PackedInt32Array(160, 159, 161), PackedInt32Array(161, 159, 162), PackedInt32Array(162, 159, 163), PackedInt32Array(165, 164, 166), PackedInt32Array(166, 164, 167), PackedInt32Array(167, 164, 168), PackedInt32Array(170, 169, 171), PackedInt32Array(171, 169, 172), PackedInt32Array(172, 169, 173), PackedInt32Array(175, 174, 176), PackedInt32Array(176, 174, 177), PackedInt32Array(178, 181, 179), PackedInt32Array(179, 181, 180), PackedInt32Array(183, 182, 184), PackedInt32Array(184, 182, 185), PackedInt32Array(187, 186, 188), PackedInt32Array(188, 186, 189), PackedInt32Array(191, 190, 192), PackedInt32Array(192, 190, 193), PackedInt32Array(196, 195, 194), PackedInt32Array(198, 197, 199), PackedInt32Array(199, 197, 200), PackedInt32Array(200, 197, 201), PackedInt32Array(204, 203, 202), PackedInt32Array(206, 205, 207), PackedInt32Array(207, 205, 208), PackedInt32Array(208, 205, 209), PackedInt32Array(209, 205, 210), PackedInt32Array(213, 212, 211), PackedInt32Array(215, 214, 216), PackedInt32Array(216, 214, 218), PackedInt32Array(216, 218, 217), PackedInt32Array(220, 219, 221), PackedInt32Array(221, 219, 222), PackedInt32Array(222, 219, 224), PackedInt32Array(222, 224, 223), PackedInt32Array(227, 226, 225), PackedInt32Array(230, 229, 228)]
+cell_size = 0.5
 agent_height = 2.0
-agent_radius = 0.37
 agent_max_climb = 0.5
 region_merge_size = 10.0
 edge_max_error = 1.0
@@ -39,6 +38,12 @@ albedo_color = Color(0.25, 0.25, 0.25, 1)
 albedo_color = Color(0.5, 0.5, 0.5, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d33o5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h7pvn"]
+size = Vector3(2, 2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_d7h7r"]
+size = Vector3(2, 2, 1)
 
 [node name="Node3D" type="Node3D"]
 
@@ -335,23 +340,6 @@ first_name = "Joe"
 
 [node name="Camera" parent="." instance=ExtResource("4_s34vc")]
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="."]
-offset_right = 120.0
-offset_bottom = 66.0
-mouse_filter = 0
-
-[node name="Button" type="Button" parent="VBoxContainer2"]
-layout_mode = 2
-mouse_filter = 1
-text = "Select..."
-alignment = 0
-
-[node name="Button2" type="Button" parent="VBoxContainer2"]
-layout_mode = 2
-mouse_filter = 1
-text = "Select random"
-alignment = 0
-
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -415,5 +403,108 @@ layout_mode = 2
 text = "4"
 
 [node name="Framerate Counter" parent="." instance=ExtResource("7_f5yhj")]
+
+[node name="Area3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("prompt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 5, -10.5)
+script = ExtResource("8_tnhnx")
+prompt = NodePath("VBoxContainer2")
+
+[node name="Object" type="Node" parent="Area3D"]
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Area3D"]
+visible = false
+offset_right = 120.0
+offset_bottom = 66.0
+mouse_filter = 0
+
+[node name="Button" type="Button" parent="Area3D/VBoxContainer2"]
+layout_mode = 2
+mouse_filter = 1
+text = "Select..."
+alignment = 0
+
+[node name="HoverDetection" parent="Area3D/VBoxContainer2/Button" instance=ExtResource("9_x3y00")]
+
+[node name="Button2" type="Button" parent="Area3D/VBoxContainer2"]
+layout_mode = 2
+mouse_filter = 1
+text = "Select random"
+alignment = 0
+
+[node name="HoverDetection" parent="Area3D/VBoxContainer2/Button2" instance=ExtResource("9_x3y00")]
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="Area3D"]
+visible = false
+offset_right = 59.0
+offset_bottom = 171.0
+mouse_filter = 0
+
+[node name="Button" type="Button" parent="Area3D/VBoxContainer3"]
+layout_mode = 2
+mouse_filter = 1
+text = "< Back"
+alignment = 0
+
+[node name="Button2" type="Button" parent="Area3D/VBoxContainer3"]
+layout_mode = 2
+mouse_filter = 1
+text = "Mive 1"
+alignment = 0
+
+[node name="Button3" type="Button" parent="Area3D/VBoxContainer3"]
+layout_mode = 2
+mouse_filter = 1
+text = "Mive 2"
+alignment = 0
+
+[node name="Button4" type="Button" parent="Area3D/VBoxContainer3"]
+layout_mode = 2
+mouse_filter = 1
+text = "Mive 3"
+alignment = 0
+
+[node name="Button5" type="Button" parent="Area3D/VBoxContainer3"]
+layout_mode = 2
+mouse_filter = 1
+text = "Mive 4"
+alignment = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 0, 0)
+shape = SubResource("BoxShape3D_h7pvn")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Area3D"]
+collision_layer = 2
+collision_mask = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D/StaticBody3D"]
+mesh = SubResource("BoxMesh_d7h7r")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_h7pvn")
+
+[node name="Label3D" type="Label3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.506094)
+shaded = true
+text = "click me :3"
+font_size = 64
+outline_size = 24
+
+[node name="Label3D2" type="Label3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.006, 0)
+shaded = true
+text = "click me :3"
+font_size = 64
+outline_size = 24
+
+[node name="Marker3D" type="Marker3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 1.5)
+
+[connection signal="mouse_entered" from="Area3D/VBoxContainer2/Button" to="Area3D/VBoxContainer2/Button/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Area3D/VBoxContainer2/Button" to="Area3D/VBoxContainer2/Button/HoverDetection" method="_mouse_exited"]
+[connection signal="pressed" from="Area3D/VBoxContainer2/Button" to="Area3D" method="qwertyuiop"]
+[connection signal="mouse_entered" from="Area3D/VBoxContainer2/Button2" to="Area3D/VBoxContainer2/Button2/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Area3D/VBoxContainer2/Button2" to="Area3D/VBoxContainer2/Button2/HoverDetection" method="_mouse_exited"]
 
 [editable path="Camera"]

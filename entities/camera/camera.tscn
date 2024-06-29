@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://jcxhky4oqfp8"]
+[gd_scene load_steps=7 format=3 uid="uid://jcxhky4oqfp8"]
 
 [ext_resource type="Script" path="res://Node3D2.gd" id="1_gsg3u"]
 [ext_resource type="Script" path="res://scripts/camera/camera.gd" id="2_5kqyj"]
 [ext_resource type="Texture2D" uid="uid://ct4j8caps48y5" path="res://icon.svg" id="3_wabwl"]
+[ext_resource type="PackedScene" uid="uid://bx04uk1ucn11s" path="res://entities/hover_detection.tscn" id="4_nqcwa"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ftqj6"]
 
@@ -61,11 +62,15 @@ mouse_filter = 1
 text = "Walk here"
 alignment = 0
 
+[node name="HoverDetection" parent="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button" instance=ExtResource("4_nqcwa")]
+
 [node name="Button2" type="Button" parent="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 1
 text = "Walk and switch (Debug)"
 alignment = 0
+
+[node name="HoverDetection" parent="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button2" instance=ExtResource("4_nqcwa")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -78,9 +83,9 @@ target_position = Vector3(0, -1024, 0)
 collision_mask = 5
 hit_from_inside = true
 
-[connection signal="mouse_entered" from="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button" to="Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button" to="Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button" to="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button" to="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button/HoverDetection" method="_mouse_exited"]
 [connection signal="pressed" from="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button" to="Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_walk_herebutton_pressed"]
-[connection signal="mouse_entered" from="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button2" to="Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button2" to="Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button2" to="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button2/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button2" to="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button2/HoverDetection" method="_mouse_exited"]
 [connection signal="pressed" from="Node3D/Marker3D/SpringArm3D/Camera3D/VBoxContainer/Button2" to="Node3D/Marker3D/SpringArm3D/Camera3D" method="_on_walk_and_switch_pressed"]

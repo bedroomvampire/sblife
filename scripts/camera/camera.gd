@@ -16,13 +16,17 @@ func _process(_delta):
 	var origin = project_ray_origin(get_viewport().get_mouse_position())
 	var query = PhysicsRayQueryParameters3D.create(origin, floor_point_from_mouse_position())
 	hit = ray.intersect_ray(query)
+	query.collide_with_areas = true
 	if Input.is_action_just_pressed("left_click"):
-		if hit && !is_click && !has_entered:
-			if !hit.collider is CharacterBody3D:
+		if hit && !is_click && !TestScript.has_entered:
+			if !hit.collider is CharacterBody3D && !hit.collider.has_node("Object"):
 				hit_cursor.global_position = hit.position
 				asdfghjkl()
 				#TestScript.pos = hit.position
-		elif !has_entered:
+			if hit.collider.has_node("Object") && hit.collider.has_method("_prompt"):
+				hit.collider._prompt()
+				print("bonjour")
+		elif !TestScript.has_entered:
 			qwertyuiop()
 	
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -56,13 +60,6 @@ func _on_walk_herebutton_pressed():
 func qwertyuiop():
 	$VBoxContainer.visible = false
 	is_click = false
-
-func _on_control_mouse_entered():
-	has_entered = true
-
-func _on_control_mouse_exited():
-	has_entered = false
-
 
 func _on_walk_and_switch_pressed():
 	MivesMoveCommands.move_mive(TestScript.selected_num, hit_cursor.global_position)

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bx04uk1ucn11s"]
+
+[ext_resource type="Script" path="res://scripts/other/hoverdetection.gd" id="1_o4jg5"]
+
+[node name="HoverDetection" type="Node"]
+script = ExtResource("1_o4jg5")
