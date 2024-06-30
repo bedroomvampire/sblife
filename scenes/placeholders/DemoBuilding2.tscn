@@ -24,39 +24,46 @@ var to_round : float
 var snap : int
 var new_rot : Vector3
 
+var is_build : bool
+
 func _ready():
+	bake_navigation_mesh()
 	add_child(current_wall)
 
 func round_to_nearest(to_round,snap) -> float:
 	return snap * round(to_round / snap as float)
 
+func _input(event):
+	if is_build:
+		if Input.is_action_just_pressed(\"left_click\"):
+			new_rot = current_wall.rotation
+			current_wall = $\"../Wall\".duplicate()
+			bake_navigation_mesh()
+			add_child(current_wall)
+			current_wall.rotation = new_rot
+
 func _physics_process(_delta):
-	var space_state := get_world_3d().direct_space_state
-	var mouse_pos = get_viewport().get_mouse_position()
-	var from = camera.camera.project_ray_origin(mouse_pos)
-	var to = from + camera.camera.project_ray_normal(mouse_pos) * 1000.0
-	var query := PhysicsRayQueryParameters3D.create(from, to)
-	var result = space_state.intersect_ray(query)
-	if not result.is_empty():
-		current_wall.position = result.position
-		current_wall.position.y = 1
-		current_wall.position.x = round_to_nearest(current_wall.position.x, 1)
-		current_wall.position.z = round_to_nearest(current_wall.position.z, 1)
-	
-	if Input.is_action_just_pressed(\"<\"):
-		current_wall.rotate_object_local(Vector3.UP, deg_to_rad(90))
-	elif Input.is_action_just_pressed(\">\"):
-		current_wall.rotate_object_local(Vector3.UP, deg_to_rad(-90))
-	
-	if Input.is_action_just_pressed(\"left_click\"):
-		new_rot = current_wall.rotation
-		current_wall = $\"../Wall\".duplicate()
-		bake_navigation_mesh()
-		add_child(current_wall)
-		current_wall.rotation = new_rot
-	
 	if Input.is_action_just_pressed(\"test_move\"):
 		$\"../Camera/Node3D/Marker3D/SpringArm3D/Camera3D\"._on_walk_herebutton_pressed()
+	
+	if is_build:
+		var space_state := get_world_3d().direct_space_state
+		var mouse_pos = get_viewport().get_mouse_position()
+		var from = camera.camera.project_ray_origin(mouse_pos)
+		var to = from + camera.camera.project_ray_normal(mouse_pos) * 1000.0
+		var query := PhysicsRayQueryParameters3D.create(from, to)
+		var result = space_state.intersect_ray(query)
+		if not result.is_empty():
+			current_wall.position = result.position
+			current_wall.position.y = 1
+			current_wall.position.x = round_to_nearest(current_wall.position.x, 1)
+			current_wall.position.z = round_to_nearest(current_wall.position.z, 1)
+		
+		if Input.is_action_just_pressed(\"<\"):
+			current_wall.rotate_object_local(Vector3.UP, deg_to_rad(90))
+		elif Input.is_action_just_pressed(\">\"):
+			current_wall.rotate_object_local(Vector3.UP, deg_to_rad(-90))
+		
 "
 
 [sub_resource type="StandardMaterial3D" id="3"]
