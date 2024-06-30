@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bq5r4md5xxphn"]
+[gd_scene load_steps=24 format=3 uid="uid://bq5r4md5xxphn"]
 
 [ext_resource type="Script" path="res://sim_counter.gd" id="1_tij4t"]
 [ext_resource type="PackedScene" uid="uid://cmuc10t6snwjh" path="res://entities/placeholder/test_sim.tscn" id="2_hul1p"]
@@ -11,7 +11,7 @@
 [ext_resource type="Script" path="res://scripts/other/radial_prompt.gd" id="9_ow0a6"]
 [ext_resource type="PackedScene" uid="uid://bx04uk1ucn11s" path="res://entities/hover_detection.tscn" id="9_x3y00"]
 [ext_resource type="Script" path="res://test_music.gd" id="10_nsp1j"]
-[ext_resource type="AudioStream" uid="uid://dsvsev1i4rfqe" path="res://audio/music/placeholder/sample_testdrum.wav" id="10_wa0pt"]
+[ext_resource type="AudioStream" uid="uid://gol78dj122hu" path="res://audio/music/placeholder/quicktune.wav" id="12_vdvs6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eoy2t"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -47,6 +47,12 @@ size = Vector3(2, 2, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_d7h7r"]
 size = Vector3(2, 2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tx6l1"]
+albedo_color = Color(0.06, 0.06, 0.06, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_8607o"]
+material = SubResource("StandardMaterial3D_tx6l1")
 
 [node name="Node3D" type="Node3D"]
 
@@ -454,11 +460,11 @@ script = ExtResource("10_nsp1j")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Area3D/Prompt/Button3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 5, -10.5)
-stream = ExtResource("10_wa0pt")
-unit_size = 12.0
+stream = ExtResource("12_vdvs6")
+volume_db = -12.0
+unit_size = 48.0
 max_db = 2.0
-autoplay = true
-max_distance = 32.0
+max_distance = 27.0
 attenuation_filter_cutoff_hz = 12000.0
 attenuation_filter_db = -12.0
 
@@ -501,7 +507,7 @@ text = "Mive 4"
 alignment = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 0, 0)
+transform = Transform3D(1.125, 0, 0, 0, 1.125, 0, 0, 0, 1.125, 0, 0, 0)
 shape = SubResource("BoxShape3D_h7pvn")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Area3D"]
@@ -510,6 +516,26 @@ collision_mask = 3
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D/StaticBody3D"]
 mesh = SubResource("BoxMesh_d7h7r")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Area3D/StaticBody3D"]
+transform = Transform3D(0.375, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 1, 0.5, 0)
+mesh = SubResource("SphereMesh_8607o")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Area3D/StaticBody3D"]
+transform = Transform3D(0.375, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 1, -0.5, 0)
+mesh = SubResource("SphereMesh_8607o")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Area3D/StaticBody3D"]
+transform = Transform3D(0.375, 0, 0, 0, 0.75, 0, 0, 0, 0.75, -1, 0.5, 0)
+mesh = SubResource("SphereMesh_8607o")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Area3D/StaticBody3D"]
+transform = Transform3D(0.375, 0, 0, 0, 0.75, 0, 0, 0, 0.75, -1, -0.5, 0)
+mesh = SubResource("SphereMesh_8607o")
 skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D/StaticBody3D"]
