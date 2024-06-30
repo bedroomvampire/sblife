@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bq5r4md5xxphn"]
+[gd_scene load_steps=25 format=3 uid="uid://bq5r4md5xxphn"]
 
 [ext_resource type="NavigationMesh" uid="uid://dtoocu2g6xetn" path="res://testing/navigation_mesh.tres" id="1_a5wmm"]
 [ext_resource type="Script" path="res://sim_counter.gd" id="1_tij4t"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scripts/other/radial_prompt.gd" id="9_ow0a6"]
 [ext_resource type="PackedScene" uid="uid://bx04uk1ucn11s" path="res://entities/hover_detection.tscn" id="9_x3y00"]
 [ext_resource type="Script" path="res://test_music.gd" id="10_nsp1j"]
+[ext_resource type="Script" path="res://test_interact_ab.gd" id="11_72vyb"]
 [ext_resource type="AudioStream" uid="uid://gol78dj122hu" path="res://audio/music/placeholder/quicktune.wav" id="12_vdvs6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eoy2t"]
@@ -420,37 +421,42 @@ offset_right = 120.0
 offset_bottom = 66.0
 mouse_filter = 0
 script = ExtResource("9_ow0a6")
-button_radius = 75
+button_radius = 50
 
-[node name="Button" type="Button" parent="Area3D/Prompt"]
+[node name="MoveHere" type="Button" parent="Area3D/Prompt"]
 layout_mode = 2
 mouse_filter = 1
-text = "Select..."
+text = "Move mive here"
 alignment = 0
+script = ExtResource("11_72vyb")
 
-[node name="HoverDetection" parent="Area3D/Prompt/Button" instance=ExtResource("9_x3y00")]
+[node name="HoverDetection" parent="Area3D/Prompt/MoveHere" instance=ExtResource("9_x3y00")]
 
-[node name="Marker3D" type="Marker3D" parent="Area3D/Prompt/Button"]
+[node name="Marker3D" type="Marker3D" parent="Area3D/Prompt/MoveHere"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 4, -9)
 
-[node name="Button2" type="Button" parent="Area3D/Prompt"]
+[node name="MoveHere2" type="Button" parent="Area3D/Prompt"]
 layout_mode = 2
 mouse_filter = 1
-text = "Select random"
+text = "Move random mive here"
 alignment = 0
+script = ExtResource("11_72vyb")
 
-[node name="HoverDetection" parent="Area3D/Prompt/Button2" instance=ExtResource("9_x3y00")]
+[node name="HoverDetection" parent="Area3D/Prompt/MoveHere2" instance=ExtResource("9_x3y00")]
 
-[node name="Button3" type="Button" parent="Area3D/Prompt"]
+[node name="Marker3D" type="Marker3D" parent="Area3D/Prompt/MoveHere2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 4, -9)
+
+[node name="Play_Stop" type="Button" parent="Area3D/Prompt"]
 layout_mode = 2
 mouse_filter = 1
 text = "Play / Stop"
 alignment = 0
 script = ExtResource("10_nsp1j")
 
-[node name="HoverDetection" parent="Area3D/Prompt/Button3" instance=ExtResource("9_x3y00")]
+[node name="HoverDetection" parent="Area3D/Prompt/Play_Stop" instance=ExtResource("9_x3y00")]
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Area3D/Prompt/Button3"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Area3D/Prompt/Play_Stop"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 5, -10.5)
 stream = ExtResource("12_vdvs6")
 volume_db = -12.0
@@ -547,15 +553,17 @@ text = "click me :3"
 font_size = 64
 outline_size = 24
 
-[connection signal="mouse_entered" from="Area3D/Prompt/Button" to="Area3D/Prompt/Button/HoverDetection" method="_mouse_entered"]
-[connection signal="mouse_exited" from="Area3D/Prompt/Button" to="Area3D/Prompt/Button/HoverDetection" method="_mouse_exited"]
-[connection signal="pressed" from="Area3D/Prompt/Button" to="Area3D" method="qwertyuiop"]
-[connection signal="mouse_entered" from="Area3D/Prompt/Button2" to="Area3D/Prompt/Button2/HoverDetection" method="_mouse_entered"]
-[connection signal="mouse_exited" from="Area3D/Prompt/Button2" to="Area3D/Prompt/Button2/HoverDetection" method="_mouse_exited"]
-[connection signal="pressed" from="Area3D/Prompt/Button2" to="Area3D" method="qwertyuiop"]
-[connection signal="mouse_entered" from="Area3D/Prompt/Button3" to="Area3D/Prompt/Button3/HoverDetection" method="_mouse_entered"]
-[connection signal="mouse_exited" from="Area3D/Prompt/Button3" to="Area3D/Prompt/Button3/HoverDetection" method="_mouse_exited"]
-[connection signal="pressed" from="Area3D/Prompt/Button3" to="Area3D" method="qwertyuiop"]
-[connection signal="pressed" from="Area3D/Prompt/Button3" to="Area3D/Prompt/Button3" method="_on_pressed"]
+[connection signal="mouse_entered" from="Area3D/Prompt/MoveHere" to="Area3D/Prompt/MoveHere/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Area3D/Prompt/MoveHere" to="Area3D/Prompt/MoveHere/HoverDetection" method="_mouse_exited"]
+[connection signal="pressed" from="Area3D/Prompt/MoveHere" to="Area3D" method="qwertyuiop"]
+[connection signal="pressed" from="Area3D/Prompt/MoveHere" to="Area3D/Prompt/MoveHere" method="interact"]
+[connection signal="mouse_entered" from="Area3D/Prompt/MoveHere2" to="Area3D/Prompt/MoveHere2/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Area3D/Prompt/MoveHere2" to="Area3D/Prompt/MoveHere2/HoverDetection" method="_mouse_exited"]
+[connection signal="pressed" from="Area3D/Prompt/MoveHere2" to="Area3D" method="qwertyuiop"]
+[connection signal="pressed" from="Area3D/Prompt/MoveHere2" to="Area3D/Prompt/MoveHere2" method="interact_random"]
+[connection signal="mouse_entered" from="Area3D/Prompt/Play_Stop" to="Area3D/Prompt/Play_Stop/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Area3D/Prompt/Play_Stop" to="Area3D/Prompt/Play_Stop/HoverDetection" method="_mouse_exited"]
+[connection signal="pressed" from="Area3D/Prompt/Play_Stop" to="Area3D" method="qwertyuiop"]
+[connection signal="pressed" from="Area3D/Prompt/Play_Stop" to="Area3D/Prompt/Play_Stop" method="_on_pressed"]
 
 [editable path="Camera"]
