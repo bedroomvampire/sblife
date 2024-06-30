@@ -1,23 +1,15 @@
-[gd_scene load_steps=20 format=3 uid="uid://dlndh1pyyuvvj"]
+[gd_scene load_steps=23 format=3 uid="uid://dlndh1pyyuvvj"]
 
 [ext_resource type="Script" path="res://Node3D2.gd" id="1_jbc7m"]
 [ext_resource type="Texture2D" uid="uid://ct4j8caps48y5" path="res://icon.svg" id="2_mqr8a"]
 [ext_resource type="Shader" path="res://testing/build/scripts/buildtest.gdshader" id="3_203kp"]
 [ext_resource type="PackedScene" uid="uid://ci4i0nr7bgivf" path="res://scenes/placeholders/framerate_counter.tscn" id="4_stt50"]
+[ext_resource type="PackedScene" uid="uid://cmuc10t6snwjh" path="res://entities/placeholder/test_sim.tscn" id="5_k636q"]
 
-[sub_resource type="StandardMaterial3D" id="3"]
-albedo_color = Color(0.0666667, 0.498039, 0.027451, 1)
-roughness = 0.8
-
-[sub_resource type="PlaneMesh" id="4"]
-material = SubResource("3")
-size = Vector2(50, 50)
-
-[sub_resource type="ConvexPolygonShape3D" id="5"]
-points = PackedVector3Array(25, 0, 25, -25, 0, 25, 25, 0, -25, -25, 0, -25)
+[sub_resource type="NavigationMesh" id="NavigationMesh_4e7l2"]
 
 [sub_resource type="GDScript" id="GDScript_pjvb4"]
-script/source = "extends Node3D
+script/source = "extends NavigationRegion3D
 
 @onready var current_wall = $\"../Wall\".duplicate()
 @onready var camera = $\"../Camera\"
@@ -52,9 +44,24 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed(\"left_click\"):
 		new_rot = current_wall.rotation
 		current_wall = $\"../Wall\".duplicate()
+		bake_navigation_mesh()
 		add_child(current_wall)
 		current_wall.rotation = new_rot
+	
+	if Input.is_action_just_pressed(\"test_move\"):
+		$\"../Camera/Node3D/Marker3D/SpringArm3D/Camera3D\"._on_walk_herebutton_pressed()
 "
+
+[sub_resource type="StandardMaterial3D" id="3"]
+albedo_color = Color(0.0666667, 0.498039, 0.027451, 1)
+roughness = 0.8
+
+[sub_resource type="PlaneMesh" id="4"]
+material = SubResource("3")
+size = Vector2(50, 50)
+
+[sub_resource type="ConvexPolygonShape3D" id="5"]
+points = PackedVector3Array(25, 0, 25, -25, 0, 25, 25, 0, -25, -25, 0, -25)
 
 [sub_resource type="StandardMaterial3D" id="1"]
 albedo_color = Color(0.556863, 0.207843, 0.207843, 1)
@@ -62,6 +69,9 @@ roughness = 0.4
 
 [sub_resource type="BoxMesh" id="BoxMesh_8bwv0"]
 material = SubResource("1")
+size = Vector3(2, 4, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dpy31"]
 size = Vector3(2, 4, 0.25)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0kti6"]
@@ -123,7 +133,7 @@ func asdfghjkl():
 
 func _on_walk_herebutton_pressed():
 	MivesMoveCommands.move_mive(TestScript.selected_num, hit_cursor.global_position)
-	$VBoxContainer.visible = false
+	#$VBoxContainer.visible = false
 	is_click = false
 
 func qwertyuiop():
@@ -168,25 +178,32 @@ size = Vector2(8192, 8192)
 [node name="Camer" type="Camera3D" parent="."]
 transform = Transform3D(0.707107, 0.353553, -0.612372, 0, 0.866025, 0.5, 0.707107, -0.353553, 0.612372, -20, 15, 20)
 
-[node name="Floor" type="StaticBody3D" parent="."]
-visible = false
-
-[node name="MeshInstance" type="MeshInstance3D" parent="Floor"]
-mesh = SubResource("4")
-
-[node name="CollisionShape" type="CollisionShape3D" parent="Floor"]
-shape = SubResource("5")
-
-[node name="BuildingManager" type="Node3D" parent="."]
+[node name="BuildingManager" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_4e7l2")
 script = SubResource("GDScript_pjvb4")
 
-[node name="Wall" type="Node3D" parent="."]
+[node name="Floor" type="StaticBody3D" parent="BuildingManager"]
+visible = false
+
+[node name="MeshInstance" type="MeshInstance3D" parent="BuildingManager/Floor"]
+mesh = SubResource("4")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="BuildingManager/Floor"]
+shape = SubResource("5")
+
+[node name="Wall" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, -7.5, 0)
+collision_layer = 2
+collision_mask = 3
 
 [node name="WallMesh" type="MeshInstance3D" parent="Wall"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("BoxMesh_8bwv0")
 skeleton = NodePath("../..")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_dpy31")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_hukn5")
@@ -256,3 +273,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 mesh = SubResource("PlaneMesh_55ytl")
 
 [node name="Framerate Counter" parent="." instance=ExtResource("4_stt50")]
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("5_k636q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
