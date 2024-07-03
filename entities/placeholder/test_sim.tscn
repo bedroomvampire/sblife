@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cmuc10t6snwjh"]
+[gd_scene load_steps=7 format=3 uid="uid://cmuc10t6snwjh"]
 
 [ext_resource type="Script" path="res://entities/placeholder/scripts/mive_script.gd" id="1_nujx1"]
+[ext_resource type="Script" path="res://entities/mives/scripts/mives_node.gd" id="2_0s8wi"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f5act"]
 radius = 0.375
@@ -34,6 +35,7 @@ collision_mask = 7
 script = ExtResource("1_nujx1")
 
 [node name="Mives" type="Node" parent="."]
+script = ExtResource("2_0s8wi")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
