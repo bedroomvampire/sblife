@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bq5r4md5xxphn"]
+[gd_scene load_steps=26 format=3 uid="uid://bq5r4md5xxphn"]
 
 [ext_resource type="NavigationMesh" uid="uid://dtoocu2g6xetn" path="res://testing/navigation_mesh.tres" id="1_a5wmm"]
 [ext_resource type="Script" path="res://sim_counter.gd" id="1_tij4t"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://label.gd" id="6_obc5f"]
 [ext_resource type="PackedScene" uid="uid://ci4i0nr7bgivf" path="res://scenes/placeholders/framerate_counter.tscn" id="7_f5yhj"]
 [ext_resource type="Script" path="res://HBoxContainer.gd" id="7_l58ug"]
+[ext_resource type="Script" path="res://scripts/mives/mive_select_button.gd" id="8_8obxq"]
 [ext_resource type="Script" path="res://scenes/placeholders/test_interactive_object.gd" id="8_tnhnx"]
 [ext_resource type="Script" path="res://scripts/other/radial_prompt.gd" id="9_ow0a6"]
 [ext_resource type="PackedScene" uid="uid://bx04uk1ucn11s" path="res://entities/hover_detection.tscn" id="9_x3y00"]
@@ -391,18 +392,34 @@ script = ExtResource("7_l58ug")
 [node name="Button" type="Button" parent="Control/HBoxContainer"]
 layout_mode = 2
 text = "1"
+script = ExtResource("8_8obxq")
+mive_number = 1
+
+[node name="HoverDetection" parent="Control/HBoxContainer/Button" instance=ExtResource("9_x3y00")]
 
 [node name="Button2" type="Button" parent="Control/HBoxContainer"]
 layout_mode = 2
 text = "2"
+script = ExtResource("8_8obxq")
+mive_number = 2
+
+[node name="HoverDetection" parent="Control/HBoxContainer/Button2" instance=ExtResource("9_x3y00")]
 
 [node name="Button3" type="Button" parent="Control/HBoxContainer"]
 layout_mode = 2
 text = "3"
+script = ExtResource("8_8obxq")
+mive_number = 3
+
+[node name="HoverDetection" parent="Control/HBoxContainer/Button3" instance=ExtResource("9_x3y00")]
 
 [node name="Button4" type="Button" parent="Control/HBoxContainer"]
 layout_mode = 2
 text = "4"
+script = ExtResource("8_8obxq")
+mive_number = 4
+
+[node name="HoverDetection" parent="Control/HBoxContainer/Button4" instance=ExtResource("9_x3y00")]
 
 [node name="Framerate Counter" parent="." instance=ExtResource("7_f5yhj")]
 
@@ -462,7 +479,7 @@ stream = ExtResource("12_vdvs6")
 volume_db = -12.0
 unit_size = 48.0
 max_db = 2.0
-max_distance = 27.0
+max_distance = 48.0
 attenuation_filter_cutoff_hz = 12000.0
 attenuation_filter_db = -12.0
 
@@ -553,6 +570,18 @@ text = "click me :3"
 font_size = 64
 outline_size = 24
 
+[connection signal="mouse_entered" from="Control/HBoxContainer/Button" to="Control/HBoxContainer/Button/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Control/HBoxContainer/Button" to="Control/HBoxContainer/Button/HoverDetection" method="_mouse_exited"]
+[connection signal="pressed" from="Control/HBoxContainer/Button" to="Control/HBoxContainer/Button" method="switch_mive"]
+[connection signal="mouse_entered" from="Control/HBoxContainer/Button2" to="Control/HBoxContainer/Button2/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Control/HBoxContainer/Button2" to="Control/HBoxContainer/Button2/HoverDetection" method="_mouse_exited"]
+[connection signal="pressed" from="Control/HBoxContainer/Button2" to="Control/HBoxContainer/Button2" method="switch_mive"]
+[connection signal="mouse_entered" from="Control/HBoxContainer/Button3" to="Control/HBoxContainer/Button3/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Control/HBoxContainer/Button3" to="Control/HBoxContainer/Button3/HoverDetection" method="_mouse_exited"]
+[connection signal="pressed" from="Control/HBoxContainer/Button3" to="Control/HBoxContainer/Button3" method="switch_mive"]
+[connection signal="mouse_entered" from="Control/HBoxContainer/Button4" to="Control/HBoxContainer/Button4/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Control/HBoxContainer/Button4" to="Control/HBoxContainer/Button4/HoverDetection" method="_mouse_exited"]
+[connection signal="pressed" from="Control/HBoxContainer/Button4" to="Control/HBoxContainer/Button4" method="switch_mive"]
 [connection signal="mouse_entered" from="Area3D/Prompt/MoveHere" to="Area3D/Prompt/MoveHere/HoverDetection" method="_mouse_entered"]
 [connection signal="mouse_exited" from="Area3D/Prompt/MoveHere" to="Area3D/Prompt/MoveHere/HoverDetection" method="_mouse_exited"]
 [connection signal="pressed" from="Area3D/Prompt/MoveHere" to="Area3D" method="qwertyuiop"]

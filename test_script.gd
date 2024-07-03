@@ -18,6 +18,11 @@ func _process(_delta):
 	if Input.is_action_just_pressed("switch_mive"):
 		switch_mive_forward()
 
+func switch_mive(mive_num):
+	if mive_num:
+		selected_num = mive_num
+	
+
 func switch_mive_forward():
 	if selected_num >= mives_available:
 		selected_num = 1
