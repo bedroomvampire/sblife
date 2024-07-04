@@ -1,9 +1,10 @@
-[gd_scene load_steps=26 format=3 uid="uid://bq5r4md5xxphn"]
+[gd_scene load_steps=30 format=3 uid="uid://bq5r4md5xxphn"]
 
 [ext_resource type="NavigationMesh" uid="uid://dtoocu2g6xetn" path="res://testing/navigation_mesh.tres" id="1_a5wmm"]
 [ext_resource type="Script" path="res://sim_counter.gd" id="1_tij4t"]
 [ext_resource type="PackedScene" uid="uid://cmuc10t6snwjh" path="res://entities/placeholder/test_sim.tscn" id="2_hul1p"]
 [ext_resource type="PackedScene" uid="uid://jcxhky4oqfp8" path="res://entities/camera/camera.tscn" id="4_s34vc"]
+[ext_resource type="Script" path="res://THE HUNGER.gd" id="5_14xeg"]
 [ext_resource type="Texture2D" uid="uid://ct4j8caps48y5" path="res://icon.svg" id="5_75pp0"]
 [ext_resource type="Script" path="res://label.gd" id="6_obc5f"]
 [ext_resource type="PackedScene" uid="uid://ci4i0nr7bgivf" path="res://scenes/placeholders/framerate_counter.tscn" id="7_f5yhj"]
@@ -15,6 +16,7 @@
 [ext_resource type="Script" path="res://test_music.gd" id="10_nsp1j"]
 [ext_resource type="Script" path="res://test_interact_ab.gd" id="11_72vyb"]
 [ext_resource type="AudioStream" uid="uid://gol78dj122hu" path="res://audio/music/placeholder/quicktune.wav" id="12_vdvs6"]
+[ext_resource type="Script" path="res://Container.gd" id="17_iyduo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_eoy2t"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -47,6 +49,10 @@ albedo_color = Color(0.06, 0.06, 0.06, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_8607o"]
 material = SubResource("StandardMaterial3D_tx6l1")
+
+[sub_resource type="BoxMesh" id="BoxMesh_d507v"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mnyyb"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -329,6 +335,18 @@ texture = ExtResource("5_75pp0")
 [node name="CharacterBody3D" parent="." instance=ExtResource("2_hul1p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 1)
 
+[node name="THE HUNGER" type="ProgressBar" parent="CharacterBody3D"]
+anchors_preset = -1
+anchor_left = 0.066
+anchor_top = 0.021
+anchor_right = 0.066
+anchor_bottom = 0.021
+offset_left = 147.968
+offset_top = -13.608
+offset_right = 851.968
+offset_bottom = 13.392
+script = ExtResource("5_14xeg")
+
 [node name="CharacterBody3D2" parent="." instance=ExtResource("2_hul1p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 4, 2)
 first_name = "Jane"
@@ -569,6 +587,31 @@ shaded = true
 text = "click me :3"
 font_size = 64
 outline_size = 24
+
+[node name="FOOD" type="StaticBody3D" parent="."]
+transform = Transform3D(2.155, 0, 0, 0, 2.155, 0, 0, 0, 2.155, -18.8822, 5.6157, -1.36214)
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FOOD"]
+mesh = SubResource("BoxMesh_d507v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FOOD"]
+shape = SubResource("BoxShape3D_mnyyb")
+
+[node name="Label3D" type="Label3D" parent="FOOD"]
+transform = Transform3D(-0.0107859, 0, 0.999942, 0, 1, 0, -0.999942, 0, -0.0107859, 0.525589, 0, 0)
+text = "FOOD
+NOMNOMNOM"
+
+[node name="Container" type="Container" parent="FOOD"]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("17_iyduo")
+
+[node name="FOOD button" type="Button" parent="FOOD/Container"]
+layout_mode = 2
+text = "SATIATE THE HUNGER"
 
 [connection signal="mouse_entered" from="Control/HBoxContainer/Button" to="Control/HBoxContainer/Button/HoverDetection" method="_mouse_entered"]
 [connection signal="mouse_exited" from="Control/HBoxContainer/Button" to="Control/HBoxContainer/Button/HoverDetection" method="_mouse_exited"]
