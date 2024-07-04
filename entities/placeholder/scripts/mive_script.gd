@@ -14,6 +14,9 @@ var active : bool = true
 var destination : Vector3
 var reached : bool
 
+var THE_HUNGER := 100.00
+var dead := false
+
 const SPEED = 5.0
 const LERP_VAL = .125
 const JUMP_VELOCITY = 4.5
@@ -57,8 +60,19 @@ func _process(_delta):
 	else:
 		indicator.visible = false
 	
+	THE_HUNGERIFICATION()
+	TEST_STARVED()
+	if dead == true:
+		set_rotation(rotation + Vector3(0, 0, 10))
+	
 	_on_mive_go()
 
+func THE_HUNGERIFICATION():
+	THE_HUNGER -= 0.05
+
+func TEST_STARVED():
+	if THE_HUNGER <= 0:
+		dead = true
 
 func _on_mive_go():
 	if MivesMoveCommands.mive == playermive_num:
