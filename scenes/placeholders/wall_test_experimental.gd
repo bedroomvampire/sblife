@@ -1,4 +1,4 @@
-extends NavigationRegion3D
+extends Node3D
 
 var hit : Dictionary
 var posit_set : bool
@@ -11,6 +11,8 @@ var posit : Vector3
 func _ready():
 	pass # Replace with function body.
 
+func any_axis_negative(v: Vector3):
+	if v.x <0 || v.y <0 || v.z <0: return true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -30,8 +32,17 @@ func _process(_delta):
 				print("A:")
 				print(init_pos)
 				posit_set = true
-			var final_result = snapped((pos - posit), Vector3(1,1,1))
-			wall_cursor.position = posit + (final_result / 2) + Vector3(0, 1.5, 0)
+			var final_result
+			var final_result_inv
+			if !any_axis_negative(snapped((pos - posit), Vector3(1,1,1))):
+				final_result = snapped((pos - posit), Vector3(1,1,1))
+			else:
+				final_result = snapped((posit - pos), Vector3(1,1,1))
+				final_result_inv = snapped((pos - posit), Vector3(1,1,1))
+			if !final_result_inv:
+				wall_cursor.position = posit + (final_result / 2) + Vector3(0, 1.5, 0)
+			else:
+				wall_cursor.position = posit + (final_result_inv / 2) + Vector3(0, 1.5, 0)
 			wall_cursor.scale = (final_result * 4) + Vector3(1.5,1.0625,1.5)
 		if Input.is_action_just_released("left_click"):
 			wall_cursor.visible = false
@@ -39,9 +50,18 @@ func _process(_delta):
 			print("A:")
 			print(posit)
 			print("B:")
-			var final_result = snapped((pos - posit), Vector3(1,1,1))
+			var final_result
+			var final_result_inv
+			if !any_axis_negative(snapped((pos - posit), Vector3(1,1,1))):
+				final_result = snapped((pos - posit), Vector3(1,1,1))
+			else:
+				final_result = snapped((posit - pos), Vector3(1,1,1))
+				final_result_inv = snapped((pos - posit), Vector3(1,1,1))
 			print(final_result)
-			wall_test.position = posit + (final_result / 2) + Vector3(0, 1.5, 0)
+			if !final_result_inv:
+				wall_test.position = posit + (final_result / 2) + Vector3(0, 1.5, 0)
+			else:
+				wall_test.position = posit + (final_result_inv / 2) + Vector3(0, 1.5, 0)
 			wall_test.scale = (final_result * 4) + Vector3(1,1,1)
 			#print("C:")
 			#var wall_rot = Quaternion(pos, -posit)
@@ -54,5 +74,4 @@ func _posit(A):
 
 func build_wall():
 	wall_test = wall_test.duplicate()
-	bake_navigation_mesh()
 	add_child(wall_test)
