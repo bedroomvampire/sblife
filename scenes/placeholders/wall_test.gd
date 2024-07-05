@@ -4,7 +4,7 @@ var hit : Dictionary
 var posit_set : bool
 var posit : Vector3
 @export var camera : CharacterBody3D
-@onready var wall_test = $MeshInstance3D
+@onready var wall_test = $Wall
 @onready var wall_cursor = $MeshInstance3D2
 
 # Called when the node enters the scene tree for the first time.
@@ -47,6 +47,11 @@ func _process(_delta):
 			#var wall_rot = Quaternion(pos, -posit)
 			#print(wall_rot)
 			posit_set = false
+			build_wall()
 
 func _posit(A):
 	posit = A
+
+func build_wall():
+	wall_test = wall_test.duplicate()
+	add_child(wall_test)
