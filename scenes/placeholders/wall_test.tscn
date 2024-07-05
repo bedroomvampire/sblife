@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dmqu5l87qei1o"]
+[gd_scene load_steps=17 format=3 uid="uid://dmqu5l87qei1o"]
 
 [ext_resource type="Shader" path="res://testing/build/scripts/buildtest.gdshader" id="1_ib27b"]
 [ext_resource type="Script" path="res://scenes/placeholders/wall_test.gd" id="2_sfggs"]
@@ -35,6 +35,15 @@ material = SubResource("ShaderMaterial_bq310")
 size = Vector2(8192, 8192)
 
 [sub_resource type="BoxMesh" id="BoxMesh_g1be8"]
+size = Vector3(0.25, 3, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wp0gp"]
+transparency = 1
+blend_mode = 1
+albedo_color = Color(1, 1, 1, 0.498039)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4wxs7"]
+material = SubResource("StandardMaterial3D_wp0gp")
 size = Vector3(0.25, 3, 0.25)
 
 [sub_resource type="GDScript" id="GDScript_o6j7t"]
@@ -133,6 +142,12 @@ camera = NodePath("../Camera")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 mesh = SubResource("BoxMesh_g1be8")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+visible = false
+mesh = SubResource("BoxMesh_4wxs7")
 skeleton = NodePath("../..")
 
 [node name="Camera" type="CharacterBody3D" parent="."]

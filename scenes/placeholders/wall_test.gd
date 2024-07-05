@@ -5,6 +5,7 @@ var posit_set : bool
 var posit : Vector3
 @export var camera : CharacterBody3D
 @onready var wall_test = $MeshInstance3D
+@onready var wall_cursor = $MeshInstance3D2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,6 +22,7 @@ func _process(_delta):
 		var init_pos : Vector3
 		#print(pos)
 		if Input.is_action_pressed("left_click"):
+			wall_cursor.visible = true
 			var pos = snapped(hit.position, Vector3(1,1,1))
 			if !posit_set:
 				init_pos = pos
@@ -28,7 +30,11 @@ func _process(_delta):
 				print("A:")
 				print(init_pos)
 				posit_set = true
+			var final_result = snapped((pos - posit), Vector3(1,1,1))
+			wall_cursor.position = posit + (final_result / 2) + Vector3(0, 1.5, 0)
+			wall_cursor.scale = (final_result * 4) + Vector3(1.5,1.0625,1.5)
 		if Input.is_action_just_released("left_click"):
+			wall_cursor.visible = false
 			var pos = snapped(hit.position, Vector3(1,1,1))
 			print("A:")
 			print(posit)
