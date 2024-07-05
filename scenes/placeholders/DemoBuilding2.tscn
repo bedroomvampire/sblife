@@ -92,12 +92,12 @@ size = Vector3(2, 4, 0.25)
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 
-[sub_resource type="Sky" id="Sky_i6jri"]
+[sub_resource type="Sky" id="Sky_5uugb"]
 sky_material = SubResource("ProceduralSkyMaterial_0kti6")
 
 [sub_resource type="Environment" id="Environment_hukn5"]
 background_mode = 2
-sky = SubResource("Sky_i6jri")
+sky = SubResource("Sky_5uugb")
 tonemap_mode = 2
 fog_density = 0.005
 fog_sky_affect = 0.0

@@ -1,0 +1,186 @@
+[gd_scene load_steps=15 format=3 uid="uid://dmqu5l87qei1o"]
+
+[ext_resource type="Shader" path="res://testing/build/scripts/buildtest.gdshader" id="1_ib27b"]
+[ext_resource type="Script" path="res://scenes/placeholders/wall_test.gd" id="2_sfggs"]
+[ext_resource type="Script" path="res://Node3D2.gd" id="3_ly6do"]
+[ext_resource type="Texture2D" uid="uid://ct4j8caps48y5" path="res://icon.svg" id="4_xltwd"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wgirq"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_i6jri"]
+sky_material = SubResource("ProceduralSkyMaterial_wgirq")
+
+[sub_resource type="Environment" id="Environment_4hghr"]
+background_mode = 2
+sky = SubResource("Sky_i6jri")
+tonemap_mode = 2
+fog_density = 0.005
+fog_sky_affect = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_avgwb"]
+albedo_color = Color(0.25, 0.25, 0.25, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bq310"]
+render_priority = 0
+shader = ExtResource("1_ib27b")
+shader_parameter/line_width = 0.04
+shader_parameter/grid_size = 1.0
+shader_parameter/line_color = Color(1, 1, 1, 0.741176)
+shader_parameter/fill_color = Color(0, 0, 0, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_4x3nn"]
+material = SubResource("ShaderMaterial_bq310")
+size = Vector2(8192, 8192)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g1be8"]
+size = Vector3(0.25, 3, 0.25)
+
+[sub_resource type="GDScript" id="GDScript_o6j7t"]
+script/source = "extends Camera3D
+
+@onready var area = $PlayerArea3D
+@onready var main_cursor = $Sprite3D
+@onready var hit_cursor = $Sprite3D2
+var hit : Dictionary
+var is_click : bool
+var has_entered : bool
+
+func _ready():
+	main_cursor.set_as_top_level(true)
+	hit_cursor.set_as_top_level(true)
+
+func _process(_delta):
+	var ray = get_world_3d().direct_space_state
+	var origin = project_ray_origin(get_viewport().get_mouse_position())
+	var query = PhysicsRayQueryParameters3D.create(origin, floor_point_from_mouse_position())
+	hit = ray.intersect_ray(query)
+	if hit:
+		hit_cursor.global_position.x = snapped(hit.position.x, 1)
+		hit_cursor.global_position.y = snapped(hit.position.y, 1)
+		hit_cursor.global_position.z = snapped(hit.position.z, 1)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _physics_process(delta):
+	if hit:
+		main_cursor.global_position = hit.position
+
+func floor_point_from_mouse_position() -> Vector3:
+	var screen_pos = get_viewport().get_mouse_position()
+	var ray_origin = project_ray_origin(screen_pos)
+	var ray_direction = project_ray_normal(screen_pos)
+	
+	var t = -ray_origin.y / ray_direction.y
+	return ray_origin + ray_direction * t
+
+func asdfghjkl():
+	var mouse_pos = get_viewport().get_mouse_position()
+	$VBoxContainer.position = mouse_pos
+	$VBoxContainer.visible = true
+	is_click = true
+
+func _on_walk_herebutton_pressed():
+	MivesMoveCommands.move_mive(TestScript.selected_num, hit_cursor.global_position)
+	#$VBoxContainer.visible = false
+	is_click = false
+
+func qwertyuiop():
+	$VBoxContainer.visible = false
+	is_click = false
+
+func _on_control_mouse_entered():
+	has_entered = true
+
+func _on_control_mouse_exited():
+	has_entered = false
+
+
+func _on_walk_and_switch_pressed():
+	MivesMoveCommands.move_mive(TestScript.selected_num, hit_cursor.global_position)
+	TestScript.switch_mive_forward()
+	$VBoxContainer.visible = false
+	is_click = false
+"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8sofu"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_57k65"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4hghr")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+collision_mask = 7
+size = Vector3(8192, 1, 8192)
+material = SubResource("StandardMaterial3D_avgwb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("PlaneMesh_4x3nn")
+
+[node name="Node3D" type="Node3D" parent="." node_paths=PackedStringArray("camera")]
+script = ExtResource("2_sfggs")
+camera = NodePath("../Camera")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("BoxMesh_g1be8")
+skeleton = NodePath("../..")
+
+[node name="Camera" type="CharacterBody3D" parent="."]
+script = ExtResource("3_ly6do")
+
+[node name="Node3D" type="Node3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+
+[node name="Marker3D" type="Marker3D" parent="Camera/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Camera/Node3D/Marker3D"]
+transform = Transform3D(1, 0, 0, 0, 0.793353, 0.608761, 0, -0.608761, 0.793353, 0, 0, 0)
+spring_length = 30.0
+
+[node name="Camera3D" type="Camera3D" parent="Camera/Node3D/Marker3D/SpringArm3D"]
+current = true
+fov = 45.0
+script = SubResource("GDScript_o6j7t")
+
+[node name="PlayerArea3D" type="Area3D" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D/PlayerArea3D"]
+shape = SubResource("CapsuleShape3D_8sofu")
+
+[node name="Sprite3D" type="Sprite3D" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 0.63876, -0.769406, 0, 0.769406, 0.63876, 11.0665, 12.5428, -29.1139)
+visible = false
+billboard = 1
+double_sided = false
+no_depth_test = true
+texture = ExtResource("4_xltwd")
+
+[node name="Sprite3D2" type="Sprite3D" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.53674e-07, 0.5)
+modulate = Color(1, 1, 1, 0.498039)
+billboard = 1
+shaded = true
+no_depth_test = true
+texture = ExtResource("4_xltwd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_57k65")
+disabled = true
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+target_position = Vector3(0, -1024, 0)
+collision_mask = 5
+hit_from_inside = true
