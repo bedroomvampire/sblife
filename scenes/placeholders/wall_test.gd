@@ -22,6 +22,5 @@ func _process(_delta):
 		if Input.is_action_pressed("left_click"):
 			init_pos = pos
 		if Input.is_action_just_released("left_click"):
-			var final_pos = pos
-			var final_result = snapped((init_pos - final_pos).normalized(), Vector3(1,1,1))
+			var final_result = snapped((init_pos - pos), Vector3(1,1,1))
 			print(final_result)
