@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dmqu5l87qei1o"]
+[gd_scene load_steps=30 format=3 uid="uid://dmqu5l87qei1o"]
 
 [ext_resource type="Shader" path="res://testing/build/scripts/buildtest.gdshader" id="1_ib27b"]
 [ext_resource type="Script" path="res://scenes/placeholders/wall_test.gd" id="2_sfggs"]
@@ -153,6 +153,27 @@ func _on_walk_and_switch_pressed():
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_57k65"]
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_vnnru"]
+top_radius = 0.25
+bottom_radius = 0.0
+height = 0.5
+radial_segments = 16
+rings = 1
+cap_bottom = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4ywjo"]
+transparency = 1
+blend_mode = 1
+albedo_color = Color(1, 1, 1, 0.498039)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dfxfi"]
+top_radius = 0.125
+bottom_radius = 0.125
+height = 2.5
+radial_segments = 16
+rings = 1
+cap_bottom = false
+
 [node name="Node3D" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -169,12 +190,13 @@ mesh = SubResource("PlaneMesh_4x3nn")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 mesh = SubResource("PlaneMesh_orl8x")
 
-[node name="Node3D" type="NavigationRegion3D" parent="." node_paths=PackedStringArray("camera", "wall", "object")]
+[node name="Node3D" type="NavigationRegion3D" parent="." node_paths=PackedStringArray("camera", "wall", "object", "wall_cursor")]
 navigation_mesh = SubResource("NavigationMesh_8cvh8")
 script = ExtResource("2_sfggs")
 camera = NodePath("../Camera")
 wall = NodePath("../Wall")
 object = NodePath("../Cube")
+wall_cursor = NodePath("../WallCursor")
 
 [node name="Ground" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
@@ -255,6 +277,7 @@ texture = ExtResource("4_xltwd")
 
 [node name="Sprite3D2" type="Sprite3D" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.53674e-07, 0.5)
+visible = false
 modulate = Color(1, 1, 1, 0.498039)
 billboard = 1
 shaded = true
@@ -278,3 +301,17 @@ camera = NodePath("../Camera/Node3D/Marker3D/SpringArm3D/Camera3D")
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("6_cr6am")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="WallCursor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.75, 0)
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="WallCursor"]
+mesh = SubResource("CylinderMesh_vnnru")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_4ywjo")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="WallCursor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("CylinderMesh_dfxfi")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_4ywjo")
