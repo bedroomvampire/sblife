@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dmqu5l87qei1o"]
+[gd_scene load_steps=27 format=3 uid="uid://dmqu5l87qei1o"]
 
 [ext_resource type="Shader" path="res://testing/build/scripts/buildtest.gdshader" id="1_ib27b"]
 [ext_resource type="Script" path="res://scenes/placeholders/wall_test.gd" id="2_sfggs"]
@@ -31,25 +31,19 @@ shader_parameter/fill_color = Color(0, 0, 0, 0)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_4x3nn"]
 material = SubResource("ShaderMaterial_bq310")
-size = Vector2(8192, 8192)
+size = Vector2(2048, 2048)
 
-[sub_resource type="BoxMesh" id="BoxMesh_g1be8"]
-size = Vector3(0.25, 3, 0.25)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tsuxj"]
+render_priority = 0
+shader = ExtResource("1_ib27b")
+shader_parameter/line_width = 0.08
+shader_parameter/grid_size = 0.5
+shader_parameter/line_color = Color(1, 1, 1, 0.498039)
+shader_parameter/fill_color = Color(0, 0, 0, 0)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ygi47"]
-size = Vector3(0.25, 3, 0.25)
-
-[sub_resource type="BoxMesh" id="BoxMesh_8yk08"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a4bwo"]
-albedo_color = Color(0.13, 0.13, 0.13, 1)
-
-[sub_resource type="PrismMesh" id="PrismMesh_tvoq3"]
-material = SubResource("StandardMaterial3D_a4bwo")
-left_to_right = 0.0
-size = Vector3(0.25, 0.25, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_e2iut"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_orl8x"]
+material = SubResource("ShaderMaterial_tsuxj")
+size = Vector2(2048, 2048)
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_8cvh8"]
 vertices = PackedVector3Array(-255.5, 0.5, -255.5, -255.5, 0.5, 255.5, 255.5, 0.5, 255.5, 255.5, 0.5, -255.5)
@@ -70,6 +64,24 @@ albedo_color = Color(1, 1, 1, 0.498039)
 [sub_resource type="BoxMesh" id="BoxMesh_4wxs7"]
 material = SubResource("StandardMaterial3D_wp0gp")
 size = Vector3(0.25, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g1be8"]
+size = Vector3(0.25, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ygi47"]
+size = Vector3(0.25, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8yk08"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a4bwo"]
+albedo_color = Color(0.13, 0.13, 0.13, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_tvoq3"]
+material = SubResource("StandardMaterial3D_a4bwo")
+left_to_right = 0.0
+size = Vector3(0.25, 0.25, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e2iut"]
 
 [sub_resource type="GDScript" id="GDScript_o6j7t"]
 script/source = "extends Camera3D
@@ -153,6 +165,30 @@ transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 mesh = SubResource("PlaneMesh_4x3nn")
 
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("PlaneMesh_orl8x")
+
+[node name="Node3D" type="NavigationRegion3D" parent="." node_paths=PackedStringArray("camera", "wall", "object")]
+navigation_mesh = SubResource("NavigationMesh_8cvh8")
+script = ExtResource("2_sfggs")
+camera = NodePath("../Camera")
+wall = NodePath("../Wall")
+object = NodePath("../Cube")
+
+[node name="Ground" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+collision_mask = 7
+size = Vector3(256, 1, 256)
+material = SubResource("StandardMaterial3D_avgwb")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.5, 0)
+visible = false
+mesh = SubResource("BoxMesh_4wxs7")
+skeleton = NodePath("../..")
+
 [node name="Wall" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.5, 0)
 collision_layer = 2
@@ -185,26 +221,6 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cube"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_e2iut")
-
-[node name="Node3D" type="NavigationRegion3D" parent="." node_paths=PackedStringArray("camera", "wall", "object")]
-navigation_mesh = SubResource("NavigationMesh_8cvh8")
-script = ExtResource("2_sfggs")
-camera = NodePath("../Camera")
-wall = NodePath("../Wall")
-object = NodePath("../Cube")
-
-[node name="Ground" type="CSGBox3D" parent="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-use_collision = true
-collision_mask = 7
-size = Vector3(512, 1, 512)
-material = SubResource("StandardMaterial3D_avgwb")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.5, 0)
-visible = false
-mesh = SubResource("BoxMesh_4wxs7")
-skeleton = NodePath("../..")
 
 [node name="Camera" type="CharacterBody3D" parent="."]
 script = ExtResource("3_ly6do")
