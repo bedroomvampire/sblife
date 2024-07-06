@@ -1,9 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://dmqu5l87qei1o"]
+[gd_scene load_steps=25 format=3 uid="uid://dmqu5l87qei1o"]
 
 [ext_resource type="Shader" path="res://testing/build/scripts/buildtest.gdshader" id="1_ib27b"]
 [ext_resource type="Script" path="res://scenes/placeholders/wall_test.gd" id="2_sfggs"]
 [ext_resource type="Script" path="res://Node3D2.gd" id="3_ly6do"]
 [ext_resource type="Texture2D" uid="uid://ct4j8caps48y5" path="res://icon.svg" id="4_xltwd"]
+[ext_resource type="Script" path="res://scenes/placeholders/character_movement_test.gd" id="5_81v3t"]
+[ext_resource type="PackedScene" uid="uid://cmuc10t6snwjh" path="res://entities/placeholder/test_sim.tscn" id="6_cr6am"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wgirq"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -31,10 +33,27 @@ shader_parameter/fill_color = Color(0, 0, 0, 0)
 material = SubResource("ShaderMaterial_bq310")
 size = Vector2(8192, 8192)
 
+[sub_resource type="BoxMesh" id="BoxMesh_g1be8"]
+size = Vector3(0.25, 3, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ygi47"]
+size = Vector3(0.25, 3, 0.25)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8yk08"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a4bwo"]
+albedo_color = Color(0.13, 0.13, 0.13, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_tvoq3"]
+material = SubResource("StandardMaterial3D_a4bwo")
+left_to_right = 0.0
+size = Vector3(0.25, 0.25, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e2iut"]
+
 [sub_resource type="NavigationMesh" id="NavigationMesh_8cvh8"]
 vertices = PackedVector3Array(-255.5, 0.5, -255.5, -255.5, 0.5, 255.5, 255.5, 0.5, 255.5, 255.5, 0.5, -255.5)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
-cell_size = 0.5
 agent_height = 2.0
 agent_max_climb = 0.5
 region_merge_size = 10.0
@@ -42,12 +61,6 @@ edge_max_error = 1.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_avgwb"]
 albedo_color = Color(0.25, 0.25, 0.25, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_g1be8"]
-size = Vector3(0.25, 3, 0.25)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_ygi47"]
-size = Vector3(0.25, 3, 0.25)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wp0gp"]
 transparency = 1
@@ -78,9 +91,9 @@ func _process(_delta):
 	var query = PhysicsRayQueryParameters3D.create(origin, floor_point_from_mouse_position())
 	hit = ray.intersect_ray(query)
 	if hit:
-		hit_cursor.global_position.x = snapped(hit.position.x, 1)
-		hit_cursor.global_position.y = snapped(hit.position.y, 1)
-		hit_cursor.global_position.z = snapped(hit.position.z, 1)
+		hit_cursor.global_position.x = snapped(hit.position.x, .5)
+		hit_cursor.global_position.y = snapped(hit.position.y, .5)
+		hit_cursor.global_position.z = snapped(hit.position.z, .5)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -140,10 +153,45 @@ transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 mesh = SubResource("PlaneMesh_4x3nn")
 
-[node name="Node3D" type="NavigationRegion3D" parent="." node_paths=PackedStringArray("camera")]
+[node name="Wall" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.5, 0)
+collision_layer = 2
+collision_mask = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("BoxMesh_g1be8")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_ygi47")
+
+[node name="Cube" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.5, -2)
+collision_layer = 2
+collision_mask = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cube"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_8yk08")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Cube"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 3.12929e-08, 1.125, -0.375)
+mesh = SubResource("PrismMesh_tvoq3")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_e2iut")
+
+[node name="Node3D" type="NavigationRegion3D" parent="." node_paths=PackedStringArray("camera", "wall", "object")]
 navigation_mesh = SubResource("NavigationMesh_8cvh8")
 script = ExtResource("2_sfggs")
 camera = NodePath("../Camera")
+wall = NodePath("../Wall")
+object = NodePath("../Cube")
 
 [node name="Ground" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
@@ -151,18 +199,6 @@ use_collision = true
 collision_mask = 7
 size = Vector3(512, 1, 512)
 material = SubResource("StandardMaterial3D_avgwb")
-
-[node name="Wall" type="Area3D" parent="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.5, 0)
-collision_layer = 2
-collision_mask = 3
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/Wall"]
-mesh = SubResource("BoxMesh_g1be8")
-skeleton = NodePath("../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/Wall"]
-shape = SubResource("BoxShape3D_ygi47")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.5, 0)
@@ -219,3 +255,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
 target_position = Vector3(0, -1024, 0)
 collision_mask = 5
 hit_from_inside = true
+
+[node name="Node" type="Node" parent="." node_paths=PackedStringArray("camera")]
+script = ExtResource("5_81v3t")
+camera = NodePath("../Camera/Node3D/Marker3D/SpringArm3D/Camera3D")
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("6_cr6am")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
