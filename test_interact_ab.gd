@@ -12,8 +12,8 @@ func _process(delta):
 	pass
 
 func interact():
-	MivesMoveCommands.move_mive(TestScript.selected_num, marker.global_position)
+	MivesMoveCommands.move_mive_task(TestScript.selected_num, marker.global_position,"fill_test")
 
 func interact_random():
 	var random_num = randi_range(1,TestScript.mives_available)
-	MivesMoveCommands.move_mive(random_num, marker.global_position)
+	MivesMoveCommands.move_mive_task(random_num, marker.global_position,"fill_test")

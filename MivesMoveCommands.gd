@@ -4,6 +4,7 @@ signal miveMoveCommands
 
 var mive
 var position
+var given_task
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,3 +18,9 @@ func _process(delta):
 func move_mive(miveID,pos):
 	mive = miveID
 	position = pos
+	given_task = null
+
+func move_mive_task(miveID,pos,task):
+	mive = miveID
+	position = pos
+	given_task = task

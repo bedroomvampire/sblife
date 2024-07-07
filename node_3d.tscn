@@ -417,6 +417,7 @@ offset_right = -8.0
 offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 0
+step = 0.1
 value = 100.0
 editable = false
 scrollable = false
@@ -485,7 +486,7 @@ button_radius = 50
 [node name="MoveHere" type="Button" parent="Area3D/Prompt"]
 layout_mode = 2
 mouse_filter = 1
-text = "Move mive here"
+text = "Fill selected mive's motive"
 alignment = 0
 script = ExtResource("11_72vyb")
 
@@ -497,7 +498,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 4, -9)
 [node name="MoveHere2" type="Button" parent="Area3D/Prompt"]
 layout_mode = 2
 mouse_filter = 1
-text = "Move random mive here"
+text = "Fill random mive's motive"
 alignment = 0
 script = ExtResource("11_72vyb")
 

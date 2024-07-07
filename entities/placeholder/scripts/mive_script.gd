@@ -69,3 +69,6 @@ func _on_mive_go():
 
 func _target_reached():
 	reached = true
+	if MivesMoveCommands.given_task:
+		if MivesMoveCommands.given_task == "fill_test":
+			mives.test_motive = 100
