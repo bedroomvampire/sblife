@@ -1,6 +1,6 @@
-extends Node
+extends ColorRect
 
-@export_range(0, 100) var test_motive : float = 82.5
+@onready var slider = $HSlider
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -9,8 +9,4 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if test_motive >= 0.00:
-		if test_motive >= 50.0:
-			test_motive -= 0.1 * delta
-		else:
-			test_motive -= 0.05 * delta
+	slider.value = TestScript.motive_visible

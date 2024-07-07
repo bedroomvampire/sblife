@@ -7,6 +7,7 @@ var mives_array : Array[Node3D]
 var follow_position : Vector3
 
 var has_entered : bool
+var motive_visible : float
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

@@ -4,6 +4,7 @@ signal moveSomewhere
 
 @onready var agent = $NavigationAgent3D
 @onready var indicator = $Indicator
+@onready var mives = $Mives
 
 var playermive_num : int
 @export var first_name = "John"
@@ -48,6 +49,7 @@ func _physics_process(delta):
 func _process(_delta):
 	if TestScript.selected_num == playermive_num:
 		active = true
+		TestScript.motive_visible = mives.test_motive
 	else:
 		active = false
 	

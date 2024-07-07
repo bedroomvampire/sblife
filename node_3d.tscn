@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bq5r4md5xxphn"]
+[gd_scene load_steps=27 format=3 uid="uid://bq5r4md5xxphn"]
 
 [ext_resource type="NavigationMesh" uid="uid://dtoocu2g6xetn" path="res://testing/navigation_mesh.tres" id="1_a5wmm"]
 [ext_resource type="Script" path="res://sim_counter.gd" id="1_tij4t"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://jcxhky4oqfp8" path="res://entities/camera/camera.tscn" id="4_s34vc"]
 [ext_resource type="Texture2D" uid="uid://ct4j8caps48y5" path="res://icon.svg" id="5_75pp0"]
 [ext_resource type="Script" path="res://label.gd" id="6_obc5f"]
+[ext_resource type="Script" path="res://motive_visibility.gd" id="7_2suxn"]
 [ext_resource type="PackedScene" uid="uid://ci4i0nr7bgivf" path="res://scenes/placeholders/framerate_counter.tscn" id="7_f5yhj"]
 [ext_resource type="Script" path="res://HBoxContainer.gd" id="7_l58ug"]
 [ext_resource type="Script" path="res://scripts/mives/mive_select_button.gd" id="8_8obxq"]
@@ -378,6 +379,47 @@ grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 1
 color = Color(0, 0, 0, 0.498039)
+
+[node name="ColorRect3" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -192.0
+offset_top = -104.0
+offset_right = -8.0
+offset_bottom = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 1
+color = Color(0, 0, 0, 0.247059)
+script = ExtResource("7_2suxn")
+
+[node name="Label" type="Label" parent="Control/ColorRect3"]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 103.0
+offset_bottom = 31.0
+text = "Test motive:"
+
+[node name="HSlider" type="HSlider" parent="Control/ColorRect3"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -24.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+value = 100.0
+editable = false
+scrollable = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control"]
 layout_mode = 1
