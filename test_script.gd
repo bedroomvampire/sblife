@@ -8,6 +8,7 @@ var follow_position : Vector3
 
 var has_entered : bool
 var motive_visible : float
+var build_type_mode : int
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

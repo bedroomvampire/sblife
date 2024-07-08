@@ -1,11 +1,14 @@
-[gd_scene load_steps=30 format=3 uid="uid://dmqu5l87qei1o"]
+[gd_scene load_steps=33 format=3 uid="uid://dmqu5l87qei1o"]
 
 [ext_resource type="Shader" path="res://testing/build/scripts/buildtest.gdshader" id="1_ib27b"]
 [ext_resource type="Script" path="res://scenes/placeholders/wall_test.gd" id="2_sfggs"]
 [ext_resource type="Script" path="res://Node3D2.gd" id="3_ly6do"]
+[ext_resource type="PackedScene" uid="uid://bx04uk1ucn11s" path="res://entities/hover_detection.tscn" id="3_w2dq5"]
 [ext_resource type="Texture2D" uid="uid://ct4j8caps48y5" path="res://icon.svg" id="4_xltwd"]
 [ext_resource type="Script" path="res://scenes/placeholders/character_movement_test.gd" id="5_81v3t"]
 [ext_resource type="PackedScene" uid="uid://cmuc10t6snwjh" path="res://entities/placeholder/test_sim.tscn" id="6_cr6am"]
+[ext_resource type="Script" path="res://scenes/placeholders/button.gd" id="8_tutww"]
+[ext_resource type="Script" path="res://HBoxContainer.gd" id="8_vcub4"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wgirq"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -315,3 +318,61 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 mesh = SubResource("CylinderMesh_dfxfi")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_4ywjo")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="ColorRect2" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 1
+color = Color(0, 0, 0, 0.498039)
+
+[node name="HoverDetection" parent="Control/ColorRect2" instance=ExtResource("3_w2dq5")]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+offset_right = 84.0
+grow_vertical = 0
+script = ExtResource("8_vcub4")
+
+[node name="Button" type="Button" parent="Control/HBoxContainer"]
+layout_mode = 2
+text = "Wall"
+script = ExtResource("8_tutww")
+build_type_num = 1
+
+[node name="HoverDetection" parent="Control/HBoxContainer/Button" instance=ExtResource("3_w2dq5")]
+
+[node name="Button2" type="Button" parent="Control/HBoxContainer"]
+layout_mode = 2
+text = "Object"
+script = ExtResource("8_tutww")
+build_type_num = 2
+
+[node name="HoverDetection" parent="Control/HBoxContainer/Button2" instance=ExtResource("3_w2dq5")]
+
+[connection signal="mouse_entered" from="Control/ColorRect2" to="Control/ColorRect2/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Control/ColorRect2" to="Control/ColorRect2/HoverDetection" method="_mouse_exited"]
+[connection signal="mouse_entered" from="Control/HBoxContainer/Button" to="Control/HBoxContainer/Button/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Control/HBoxContainer/Button" to="Control/HBoxContainer/Button/HoverDetection" method="_mouse_exited"]
+[connection signal="pressed" from="Control/HBoxContainer/Button" to="Control/HBoxContainer/Button" method="_pressed"]
+[connection signal="mouse_entered" from="Control/HBoxContainer/Button2" to="Control/HBoxContainer/Button2/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Control/HBoxContainer/Button2" to="Control/HBoxContainer/Button2/HoverDetection" method="_mouse_exited"]
+[connection signal="pressed" from="Control/HBoxContainer/Button2" to="Control/HBoxContainer/Button2" method="_pressed"]

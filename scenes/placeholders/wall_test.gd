@@ -17,6 +17,9 @@ var obj_on : bool
 func _ready():
 	bake_navigation_mesh()
 
+func _input(event):
+	if Input.is_action_just_pressed("ui_cancel"):
+		TestScript.build_type_mode = 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -27,13 +30,13 @@ func _process(delta):
 	if hit:
 		var init_pos : Vector3
 		#print(pos)
-		if wall_on:
+		if TestScript.build_type_mode == 1 && !TestScript.has_entered:
 			var pos = snapped(hit.position, Vector3(1,1,1))
 			wall_cursor.visible = true
 			object.visible = false
 			wall_cursor.position = lerp(wall_cursor.position, pos, delta * 16)
 			attach_wall(init_pos)
-		elif obj_on:
+		elif TestScript.build_type_mode == 2 && !TestScript.has_entered:
 			var pos = snapped(hit.position, Vector3(.5,.5,.5))
 			wall_cursor.visible = false
 			object.visible = true
