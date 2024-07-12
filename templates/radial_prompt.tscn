@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://d337cr0po1ygd"]
+
+[ext_resource type="Script" path="res://scripts/other/radial_prompt.gd" id="1_kegrr"]
+[ext_resource type="PackedScene" uid="uid://bx04uk1ucn11s" path="res://entities/hover_detection.tscn" id="2_im60u"]
+
+[node name="RadialPrompt" type="Container"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_kegrr")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+text = "Button"
+
+[node name="HoverDetection" parent="Button" instance=ExtResource("2_im60u")]
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 2
+text = "Button2"
+
+[node name="HoverDetection" parent="Button2" instance=ExtResource("2_im60u")]
+
+[node name="Button3" type="Button" parent="."]
+layout_mode = 2
+text = "Button3"
+
+[node name="HoverDetection" parent="Button3" instance=ExtResource("2_im60u")]
+
+[node name="Button4" type="Button" parent="."]
+layout_mode = 2
+text = "Button4"
+
+[node name="HoverDetection" parent="Button4" instance=ExtResource("2_im60u")]
+
+[connection signal="mouse_entered" from="Button" to="Button/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Button" to="Button/HoverDetection" method="_mouse_exited"]
+[connection signal="mouse_entered" from="Button2" to="Button2/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Button2" to="Button2/HoverDetection" method="_mouse_exited"]
+[connection signal="mouse_entered" from="Button3" to="Button3/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Button3" to="Button3/HoverDetection" method="_mouse_exited"]
+[connection signal="mouse_entered" from="Button4" to="Button4/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="Button4" to="Button4/HoverDetection" method="_mouse_exited"]

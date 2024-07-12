@@ -14,6 +14,7 @@ var mive_name = first_name + " " + sur_name
 var active : bool = true
 var destination : Vector3
 var reached : bool
+var done : bool
 
 const SPEED = 5.0
 const LERP_VAL = .125
@@ -41,7 +42,7 @@ func _physics_process(delta):
 	
 	var current_location = global_transform.origin
 	var next_location = agent.get_next_path_position()
-	var new_velocity = (next_location - current_location).normalized() * SPEED
+	var new_velocity = (next_location - current_location).normalized() * (delta * 100) * SPEED
 	rotation.y = lerp_angle(rotation.y, atan2(velocity.x, velocity.z), LERP_VAL)
 	
 	velocity = new_velocity
@@ -61,14 +62,14 @@ func _process(_delta):
 	
 	_on_mive_go()
 
-
 func _on_mive_go():
 	if MivesMoveCommands.mive == playermive_num:
 		agent.target_position = MivesMoveCommands.position
-
+		done = false
 
 func _target_reached():
 	reached = true
-	if MivesMoveCommands.given_task:
+	if MivesMoveCommands.given_task && !done:
 		if MivesMoveCommands.given_task == "fill_test":
 			mives.test_motive = 100
+			done = true

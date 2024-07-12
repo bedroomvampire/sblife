@@ -1,7 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://cmuc10t6snwjh"]
+[gd_scene load_steps=10 format=3 uid="uid://cmuc10t6snwjh"]
 
 [ext_resource type="Script" path="res://entities/placeholder/scripts/mive_script.gd" id="1_nujx1"]
 [ext_resource type="Script" path="res://entities/mives/scripts/mives_node.gd" id="2_0s8wi"]
+[ext_resource type="Script" path="res://scripts/other/radial_prompt.gd" id="3_nwcps"]
+[ext_resource type="Script" path="res://entities/placeholder/MiveTalk.gd" id="3_uy378"]
+[ext_resource type="PackedScene" uid="uid://bx04uk1ucn11s" path="res://entities/hover_detection.tscn" id="4_n0r7r"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f5act"]
 radius = 0.375
@@ -53,6 +56,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_2780b")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 path_desired_distance = 0.5
+target_desired_distance = 0.12
 path_height_offset = 0.5
 avoidance_enabled = true
 height = 2.0
@@ -64,5 +68,33 @@ radius = 0.38
 height = 2.0
 use_3d_avoidance = true
 
+[node name="MiveTalk" type="Node" parent="." node_paths=PackedStringArray("prompt")]
+script = ExtResource("3_uy378")
+prompt = NodePath("RadialPrompt")
+
+[node name="RadialPrompt" type="Container" parent="MiveTalk"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_nwcps")
+
+[node name="Button" type="Button" parent="MiveTalk/RadialPrompt"]
+layout_mode = 2
+text = "Friendly talk"
+
+[node name="HoverDetection" parent="MiveTalk/RadialPrompt/Button" instance=ExtResource("4_n0r7r")]
+
+[node name="Button2" type="Button" parent="MiveTalk/RadialPrompt"]
+layout_mode = 2
+text = "Mean talk"
+
+[node name="HoverDetection" parent="MiveTalk/RadialPrompt/Button2" instance=ExtResource("4_n0r7r")]
+
+[node name="Marker3D" type="Marker3D" parent="MiveTalk"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
 [connection signal="moveSomewhere" from="." to="." method="_on_sim_go"]
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_target_reached"]
+[connection signal="mouse_entered" from="MiveTalk/RadialPrompt/Button" to="MiveTalk/RadialPrompt/Button/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="MiveTalk/RadialPrompt/Button" to="MiveTalk/RadialPrompt/Button/HoverDetection" method="_mouse_exited"]
+[connection signal="mouse_entered" from="MiveTalk/RadialPrompt/Button2" to="MiveTalk/RadialPrompt/Button2/HoverDetection" method="_mouse_entered"]
+[connection signal="mouse_exited" from="MiveTalk/RadialPrompt/Button2" to="MiveTalk/RadialPrompt/Button2/HoverDetection" method="_mouse_exited"]
