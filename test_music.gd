@@ -1,14 +1,9 @@
 extends Button
 
-@onready var music = $AudioStreamPlayer3D
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
+@onready var music : AudioStreamPlayer3D = $AudioStreamPlayer3D
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(delta : float) -> void:
 	if music.playing:
 		text = "Stop music"
 	else:

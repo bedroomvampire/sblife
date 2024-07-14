@@ -2,25 +2,16 @@ extends Node
 
 signal miveMoveCommands
 
-var mive
-var position
-var given_task
+var mive : int
+var position : Vector3
+var given_task : String
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-func move_mive(miveID,pos):
+func move_mive(miveID : int,pos : Vector3) -> void:
 	mive = miveID
 	position = pos
-	given_task = null
+	given_task = ""
 
-func move_mive_task(miveID,pos,task):
+func move_mive_task(miveID : int,pos : Vector3,task : String) -> void:
 	mive = miveID
 	position = pos
 	given_task = task

@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 TestScript="*res://test_script.gd"
 MivesMoveCommands="*res://MivesMoveCommands.gd"
 
+[debug]
+
+gdscript/warnings/untyped_declaration=1
+
 [dotnet]
 
 project/assembly_name="sblife"
@@ -107,6 +111,11 @@ follow_test={
 test_move={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":92,"key_label":0,"unicode":92,"echo":false,"script":null)
+]
+}
+delete={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194312,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
 

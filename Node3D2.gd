@@ -1,15 +1,15 @@
 extends CharacterBody3D
 
-@onready var marker = $Node3D/Marker3D
-@onready var spring = $Node3D/Marker3D/SpringArm3D
-@onready var camera = $Node3D/Marker3D/SpringArm3D/Camera3D
-@onready var node = $Node3D
-@onready var raycast = $RayCast3D
+@onready var marker : Marker3D = $Node3D/Marker3D
+@onready var spring : SpringArm3D = $Node3D/Marker3D/SpringArm3D
+@onready var camera : Camera3D = $Node3D/Marker3D/SpringArm3D/Camera3D
+@onready var node : Node = $Node3D
+@onready var raycast : RayCast3D = $RayCast3D
 
-const normal_speed = 9.375
-const shift_speed = 25.0
+const normal_speed := 9.375
+const shift_speed := 25.0
 
-var SPEED = 20.0
+var SPEED := 20.0
 var following : bool = false
 var cam_sensitivity : float = 0.0035
 var mouse_pos : Vector2
@@ -22,12 +22,12 @@ var zoom_duration : float = 5
 @export var cam_rot : Vector2 = Vector2(37.5,0)
 @export var _zoom_level : float = 20
 
-func _ready():
+func _ready() -> void:
 	#spring.rotation.x = cam_rot.x
 	#marker.rotation.y = cam_rot.y
 	spring.spring_length = _zoom_level
 
-func _unhandled_input(event):
+func _unhandled_input(event : InputEvent) -> void:
 	handle_camera_rotation(event)
 	handle_scroll_zoom(event)
 	if Input.is_action_just_pressed("follow_test"):
@@ -36,7 +36,7 @@ func _unhandled_input(event):
 		else:
 			following = true
 
-func handle_camera_rotation(event):
+func handle_camera_rotation(event : InputEvent) -> void:
 	if event is InputEventMouseMotion && Input.is_action_pressed("camera_rotate"):
 		if !Input.is_action_pressed("camera_move"):
 			marker.global_rotation.y += -event.relative.x * cam_sensitivity
@@ -48,13 +48,13 @@ func handle_camera_rotation(event):
 		mouse_pos.y = 0
 		mouse_pos.x = 0
 
-func handle_scroll_zoom(event):
+func handle_scroll_zoom(event : InputEvent) -> void:
 	if event.is_action_pressed("zoom_up"):
 		_zoom_level -= zoom_factor
 	if event.is_action_pressed("zoom_down"):
 		_zoom_level += zoom_factor
 
-func _process(delta):
+func _process(delta : float) -> void:
 	handle_camera_zoom(delta)
 	if Input.is_action_pressed("camera_rotate"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
@@ -68,18 +68,18 @@ func _process(delta):
 	else:
 		SPEED = normal_speed
 
-func handle_camera_zoom(delta):
+func handle_camera_zoom(delta : float) -> void:
 	if Input.is_action_pressed("zoom_up"):
 		_zoom_level -= zoom_factor * delta * 30
 	if Input.is_action_pressed("zoom_down"):
 		_zoom_level += zoom_factor * delta * 30
 
-func _physics_process(delta):
-	var input_dir = Input.get_vector("left", "right", "up", "down")
-	var key_dir = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+func _physics_process(delta : float) -> void:
+	var input_dir : Vector2 = Input.get_vector("left", "right", "up", "down")
+	var key_dir : Vector3 = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	key_dir = key_dir.rotated(Vector3.UP, marker.rotation.y)
 	
-	var mouse_dir = (transform.basis * Vector3(mouse_pos.x, mouse_pos.y, 0)).normalized()
+	var mouse_dir : Vector3 = (transform.basis * Vector3(mouse_pos.x, mouse_pos.y, 0)).normalized()
 	mouse_dir = mouse_dir.rotated(Vector3.UP, marker.rotation.y)
 	
 	if following:

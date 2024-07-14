@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://dmqu5l87qei1o"]
+[gd_scene load_steps=34 format=3 uid="uid://dmqu5l87qei1o"]
 
 [ext_resource type="Shader" path="res://testing/build/scripts/buildtest.gdshader" id="1_ib27b"]
 [ext_resource type="Script" path="res://scenes/placeholders/wall_test.gd" id="2_sfggs"]
@@ -68,6 +68,9 @@ albedo_color = Color(1, 1, 1, 0.498039)
 material = SubResource("StandardMaterial3D_wp0gp")
 size = Vector3(0.25, 3, 0.25)
 
+[sub_resource type="BoxMesh" id="BoxMesh_5qnlv"]
+size = Vector3(256, 1, 256)
+
 [sub_resource type="BoxMesh" id="BoxMesh_g1be8"]
 size = Vector3(0.25, 3, 0.25)
 
@@ -92,6 +95,7 @@ script/source = "extends Camera3D
 @onready var area = $PlayerArea3D
 @onready var main_cursor = $Sprite3D
 @onready var hit_cursor = $Sprite3D2
+@export var navigation : NavigationRegion3D
 var hit : Dictionary
 var is_click : bool
 var has_entered : bool
@@ -106,9 +110,24 @@ func _process(_delta):
 	var query = PhysicsRayQueryParameters3D.create(origin, floor_point_from_mouse_position())
 	hit = ray.intersect_ray(query)
 	if hit:
-		hit_cursor.global_position.x = snapped(hit.position.x, .5)
-		hit_cursor.global_position.y = snapped(hit.position.y, .5)
-		hit_cursor.global_position.z = snapped(hit.position.z, .5)
+		hit_cursor.global_position.x = hit.position.x
+		hit_cursor.global_position.y = hit.position.y
+		hit_cursor.global_position.z = hit.position.z
+		if hit.collider.has_node(\"Wall\"):
+			print(\"oi mate\")
+	
+	wall_detector()
+
+func wall_detector():
+	var ray = get_world_3d().direct_space_state
+	var origin = project_ray_origin(get_viewport().get_mouse_position())
+	var query = PhysicsRayQueryParameters3D.create(origin, floor_point_from_mouse_position())
+	query.collide_with_areas = true
+	hit = ray.intersect_ray(query)
+	if hit:
+		if hit.collider.has_node(\"Wall\"):
+			if Input.is_action_just_pressed(\"delete\"):
+				navigation.remove_wall(hit.collider)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -214,10 +233,17 @@ visible = false
 mesh = SubResource("BoxMesh_4wxs7")
 skeleton = NodePath("../..")
 
+[node name="Floor" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+visible = false
+mesh = SubResource("BoxMesh_5qnlv")
+
 [node name="Wall" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.5, 0)
 collision_layer = 2
 collision_mask = 3
+
+[node name="Wall" type="Node" parent="Wall"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Wall"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -229,7 +255,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 shape = SubResource("BoxShape3D_ygi47")
 
 [node name="Cube" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.5, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.5, 0)
 collision_layer = 2
 collision_mask = 3
 
@@ -260,10 +286,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, 0)
 transform = Transform3D(1, 0, 0, 0, 0.793353, 0.608761, 0, -0.608761, 0.793353, 0, 0, 0)
 spring_length = 30.0
 
-[node name="Camera3D" type="Camera3D" parent="Camera/Node3D/Marker3D/SpringArm3D"]
+[node name="Camera3D" type="Camera3D" parent="Camera/Node3D/Marker3D/SpringArm3D" node_paths=PackedStringArray("navigation")]
 current = true
 fov = 45.0
 script = SubResource("GDScript_o6j7t")
+navigation = NodePath("../../../../../Node3D")
 
 [node name="PlayerArea3D" type="Area3D" parent="Camera/Node3D/Marker3D/SpringArm3D/Camera3D"]
 

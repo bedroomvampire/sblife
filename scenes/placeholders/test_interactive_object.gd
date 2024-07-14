@@ -4,13 +4,8 @@ extends CharacterBody3D
 
 var is_click : bool
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _input(event):
+func _input(_event : InputEvent) -> void:
 	if Input.is_action_just_pressed("left_click"):
 		if !TestScript.has_entered && is_click:
 			qwertyuiop()
@@ -19,12 +14,12 @@ func _input(event):
 		if is_click:
 			qwertyuiop()
 
-func _prompt():
-	var mouse_pos = get_viewport().get_mouse_position()
+func _prompt() -> void:
+	var mouse_pos : Vector2 = get_viewport().get_mouse_position()
 	prompt.position = mouse_pos
 	prompt.visible = true
 	is_click = true
 
-func qwertyuiop():
+func qwertyuiop() -> void:
 	prompt.visible = false
 	is_click = false

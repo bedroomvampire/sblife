@@ -2,15 +2,15 @@ extends CharacterBody3D
 
 signal moveSomewhere
 
-@onready var agent = $NavigationAgent3D
-@onready var indicator = $Indicator
-@onready var mives = $Mives
+@onready var agent : NavigationAgent3D = $NavigationAgent3D
+@onready var indicator : Node = $Indicator
+@onready var mives : Node = $Mives
 
 var playermive_num : int
-@export var first_name = "John"
-@export var sur_name = "Doe"
+@export var first_name := "John"
+@export var sur_name := "Doe"
 
-var mive_name = first_name + " " + sur_name
+var mive_name : String = first_name + " " + sur_name
 var active : bool = true
 var destination : Vector3
 var reached : bool
@@ -20,10 +20,7 @@ const SPEED = 5.0
 const LERP_VAL = .125
 const JUMP_VELOCITY = 4.5
 
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-
-func _ready():
+func _ready() -> void:
 	playermive_num += TestScript.mives_available + 1
 	TestScript.mives_available += 1
 	TestScript.mives_array.resize(TestScript.mives_available)
@@ -31,23 +28,19 @@ func _ready():
 	MivesMoveCommands.miveMoveCommands.emit(moveSomewhere)
 	destination = position
 
-func _physics_process(delta):
+func _physics_process(delta : float) -> void:
 	reached = false
-	
-	# Add the gravity.
-	#if not is_on_floor():
-	#	velocity.y -= gravity * delta
 	
 	move_and_slide()
 	
-	var current_location = global_transform.origin
-	var next_location = agent.get_next_path_position()
-	var new_velocity = (next_location - current_location).normalized() * (delta * 100) * SPEED
+	var current_location : Vector3 = global_transform.origin
+	var next_location : Vector3 = agent.get_next_path_position()
+	var new_velocity : Vector3 = (next_location - current_location).normalized() * (delta * 100) * SPEED
 	rotation.y = lerp_angle(rotation.y, atan2(velocity.x, velocity.z), LERP_VAL)
 	
 	velocity = new_velocity
 
-func _process(_delta):
+func _process(_delta : float) -> void:
 	if TestScript.selected_num == playermive_num:
 		active = true
 		TestScript.motive_visible = mives.test_motive
@@ -62,7 +55,7 @@ func _process(_delta):
 	
 	_on_mive_go()
 
-func _on_mive_go():
+func _on_mive_go() -> void:
 	if MivesMoveCommands.mive == playermive_num:
 		agent.target_position = MivesMoveCommands.position
 		done = false
@@ -70,6 +63,6 @@ func _on_mive_go():
 func _target_reached():
 	reached = true
 	if MivesMoveCommands.given_task && !done:
+		done = true
 		if MivesMoveCommands.given_task == "fill_test":
 			mives.test_motive = 100
-			done = true

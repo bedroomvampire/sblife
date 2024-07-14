@@ -2,14 +2,14 @@
 extends Container
 
 #Creates a radial container node
-@export var button_radius = 100 #in godot position units
+@export var button_radius : float = 100 #in godot position units
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	place_buttons()
 
 #Repositions the buttons
-func place_buttons():
+func place_buttons() -> void:
 	var buttons = get_children()
 	
 	#Stop before we cause problems when no buttons are available
@@ -31,6 +31,6 @@ func place_buttons():
 
 #utility function for adding buttons and recalculating their positions
 #TODO: Should probably just use a signal to run place_button on any tree change
-func add_button(btn):
+func add_button(btn) -> void:
 	add_child(btn)
 	place_buttons()

@@ -79,7 +79,6 @@ visible = false
 offset_right = 86.0
 offset_bottom = 32.0
 script = ExtResource("5_i85q4")
-button_radius = 50
 
 [node name="Button" type="Button" parent="Node3D/Marker3D/SpringArm3D/Camera3D/WalkPrompt"]
 layout_mode = 2

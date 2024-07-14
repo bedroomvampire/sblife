@@ -56,6 +56,7 @@ environment = SubResource("Environment_gb3u1")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_opacity = 0.5
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = ExtResource("1_a5wmm")
@@ -481,7 +482,6 @@ offset_right = 120.0
 offset_bottom = 66.0
 mouse_filter = 0
 script = ExtResource("9_ow0a6")
-button_radius = 50
 
 [node name="MoveHere" type="Button" parent="Area3D/Prompt"]
 layout_mode = 2
@@ -532,7 +532,6 @@ offset_right = 59.0
 offset_bottom = 171.0
 mouse_filter = 0
 script = ExtResource("9_ow0a6")
-button_radius = 75
 
 [node name="Button" type="Button" parent="Area3D/VBoxContainer3"]
 layout_mode = 2
