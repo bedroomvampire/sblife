@@ -11,6 +11,7 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qgfb5"]
 
 [node name="Camera" type="CharacterBody3D"]
+process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
 script = ExtResource("1_gsg3u")
 

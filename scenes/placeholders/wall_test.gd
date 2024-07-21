@@ -7,8 +7,10 @@ var obj_rot : Vector3
 @export var camera : CharacterBody3D
 @export var wall : Area3D
 @export var object : Area3D
+@export var floor : Node3D
 @export var wall_cursor : Node3D
-@onready var wall_indicator : Node = $MeshInstance3D2
+@export var wall_indicator : Node3D
+@export var floor_indicator : Node3D
 
 var wall_on : bool
 var obj_on : bool
@@ -36,14 +38,22 @@ func _process(delta : float) -> void:
 			var pos : Vector3 = snapped(hit.position, Vector3(1,1,1))
 			wall_cursor.visible = true
 			object.visible = false
+			floor.visible = false
 			wall_cursor.position = lerp(wall_cursor.position, pos, delta * 16)
 			attach_wall(init_pos)
 		elif TestScript.build_type_mode == 2 && !TestScript.has_entered:
 			var pos : Vector3 = snapped(hit.position, Vector3(.5,.5,.5))
 			wall_cursor.visible = false
 			object.visible = true
+			floor.visible = false
 			object.position = lerp(object.position, pos, delta * 16)
 			attach_obj(init_pos)
+		elif TestScript.build_type_mode == 3 && !TestScript.has_entered:
+			var pos : Vector3 = snapped(hit.position, Vector3(1,1,1))
+			wall_cursor.visible = true
+			object.visible = false
+			floor.visible = true
+			attach_floor(init_pos)
 		else:
 			wall_cursor.visible = false
 			object.visible = false
@@ -94,6 +104,49 @@ func attach_wall(init_pos) -> void:
 		posit_set = false
 		build_wall()
 
+func attach_floor(init_pos) -> void:
+	if Input.is_action_pressed("left_click"):
+			floor_indicator.visible = true
+			var pos = snapped(hit.position, Vector3(1,1,1))
+			if !posit_set:
+				init_pos = pos
+				_posit(init_pos)
+				print("A:")
+				print(init_pos)
+				posit_set = true
+			var final_result = snapped((pos - posit), Vector3(1,1,1))
+			floor_indicator.position = posit + (final_result / 2) + Vector3(0, 0, 0)
+			if final_result.x <= 0:
+				floor_indicator.scale = (final_result * 4) + Vector3(-1.5,0.01,1.5)
+			elif final_result.z <= 0:
+				floor_indicator.scale = (final_result * 4) + Vector3(1.5,0.01,-1.5)
+			elif final_result.x <= 0 && final_result.z <= 0:
+				floor_indicator.scale = (final_result * 4) + Vector3(-1.5,0.01,-1.5)
+			else:
+				floor_indicator.scale = (final_result * 4) + Vector3(1.5,0.01,1.5)
+	if Input.is_action_just_released("left_click"):
+		floor_indicator.visible = false
+		var pos = snapped(hit.position, Vector3(1,1,1))
+		print("A:")
+		print(posit)
+		print("B:")
+		var final_result = snapped((pos - posit), Vector3(1,1,1))
+		print(final_result)
+		floor.position = posit + (final_result / 2)
+		if final_result.x <= 0:
+			floor.scale = (final_result * 4) + Vector3(-1,1,1)
+		elif final_result.z <= 0:
+			floor.scale = (final_result * 4) + Vector3(1,1,-1)
+		elif final_result.x <= 0 && final_result.z <= 0:
+			floor.scale = (final_result * 4) + Vector3(-1,1,-1)
+		else:
+			floor.scale = (final_result * 4) + Vector3(1,1,1)
+		#print("C:")
+		#var floor_rot = Quaternion(pos, -posit)
+		#print(floor_rot)
+		posit_set = false
+		build_floor()
+
 func attach_obj(init_pos):
 	if Input.is_action_just_pressed("left_click"):
 			build_obj()
@@ -105,6 +158,11 @@ func attach_obj(init_pos):
 func build_wall() -> void:
 	wall = wall.duplicate()
 	add_child(wall)
+	bake_navigation_mesh(true)
+
+func build_floor() -> void:
+	floor = floor.duplicate()
+	add_child(floor)
 	bake_navigation_mesh(true)
 
 func remove_wall(obj) -> void:
